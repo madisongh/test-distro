@@ -1,0 +1,17 @@
+# LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+LCONF_VERSION = "6"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  ##OEROOT##/openembedded-core/meta \
+  ##OEROOT##/meta-testdistro \
+  "
+
+BBLAYERS_NON_REMOVABLE ?= " \
+  ##OEROOT##/openembedded-core/meta \
+  ##OEROOT##/meta-testdistro \
+  "
+

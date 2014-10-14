@@ -1,0 +1,6 @@
+[submodule "bitbake"]
+	path = repos/bitbake
+	url = git@github.com:madisongh/bitbake
+[submodule "oe-core"]
+	path = repos/openembedded-core
+	url = git@github.com:madisongh/openembedded-core
