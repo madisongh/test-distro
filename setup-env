@@ -47,9 +47,10 @@ if [ -z "$error_occurred" ]; then
     . $OEROOT/scripts/oe-buildenv-internal && \
 	$OEROOT/scripts/oe-setup-builddir && \
 	[ -n "$BUILDDIR" ] && cd $BUILDDIR
+    TEMPLATECONF=`cat $BUILDDIR/conf/templateconf.cfg`
     if [ ! -f "$BUILDDIR/conf/site.conf" -a \
-	-f "$TEMPLATECONF/site.conf.sample" ]; then
-	cp $TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
+	-f "$OEROOT/$TEMPLATECONF/site.conf.sample" ]; then
+	cp $OEROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
     fi
     unset OEROOT BBPATH TEMPLATECONF
 fi
