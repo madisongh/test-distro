@@ -1,0 +1,25 @@
+SCONF_VERSION = "1"
+
+SSTATE_MIRRORDIR ?= "file:///archive/distros/test-distro/sstate_mirror"
+DOWNLOADS_MIRRORDIR ?= "file:///archive/distros/test-distro/downloads"
+
+SSTATE_MIRRORS ?= "\
+file://.* ${SSTATE_MIRRORDIR}/PATH"
+
+PREMIRRORS = "\
+ftp://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+http://.*/.*  ${DOWNLOADS_MIRRORDIR}/ \n \
+https://.*/.* ${DOWNLOADS_MIRRORDIR}/ \n \
+bzr://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+cvs://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+git://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+hg://.*/.*    ${DOWNLOADS_MIRRORDIR}/ \n \
+osc://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+p4://.*/.*    ${DOWNLOADS_MIRRORDIR}/ \n \
+svk://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+svn://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n"
+
+MIRRORS =+ "\
+ftp://.*/.*      ${DOWNLOADS_MIRRORDIR}/ \n \
+http://.*/.*     ${DOWNLOADS_MIRRORDIR}/ \n \
+https://.*/.*    ${DOWNLOADS_MIRRORDIR}/ \n"
