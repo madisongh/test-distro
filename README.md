@@ -1,4 +1,5 @@
 test-distro
 ===========
 
-Test distro.
+Test distro for exercising the autobuilder.
+
