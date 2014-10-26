@@ -4,3 +4,4 @@
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
+	branch = mypatches
