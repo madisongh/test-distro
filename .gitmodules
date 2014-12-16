@@ -1,6 +1,7 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
+	branch = master
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
