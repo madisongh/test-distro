@@ -1,0 +1,22 @@
+Index: syslog-ng-3.6.2/configure.ac
+===================================================================
+--- syslog-ng-3.6.2.orig/configure.ac	2015-01-15 14:51:38.412204177 -0800
++++ syslog-ng-3.6.2/configure.ac	2015-01-15 15:16:03.431468815 -0800
+@@ -658,11 +658,13 @@
+ dnl ***************************************************************************
+ 
+ AC_CHECK_LIB(dl, dlsym, DL_LIBS="-ldl")
+-PKG_CHECK_MODULES(LIBDBI, dbi >= $LIBDBI_MIN_VERSION, libdbi_pkgconfig_not_found="0", libdbi_pkgconfig_not_found="1")
++if test "x$enable_sql" != "xno"; then
++	PKG_CHECK_MODULES(LIBDBI, dbi >= $LIBDBI_MIN_VERSION, libdbi_pkgconfig_not_found="0", libdbi_pkgconfig_not_found="1")
+ 
+-if test "$libdbi_pkgconfig_not_found" -eq 1; then
+-	dnl if libdbi has no .pc file, try it without one
+-	AC_CHECK_LIB(dbi, dbi_initialize, LIBDBI_LIBS="-ldbi"; LIBDBI_CFLAGS="-I/usr/include")
++	if test "$libdbi_pkgconfig_not_found" -eq 1; then
++		dnl if libdbi has no .pc file, try it without one
++		AC_CHECK_LIB(dbi, dbi_initialize, LIBDBI_LIBS="-ldbi"; LIBDBI_CFLAGS="-I/usr/include")
++	fi
+ fi
+ 
+ if test "x$enable_sql" = "xauto"; then

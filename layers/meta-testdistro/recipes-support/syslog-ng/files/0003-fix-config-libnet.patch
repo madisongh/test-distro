@@ -1,0 +1,50 @@
+Index: syslog-ng-3.6.2/configure.ac
+===================================================================
+--- syslog-ng-3.6.2.orig/configure.ac	2015-01-15 14:28:12.093230618 -0800
++++ syslog-ng-3.6.2/configure.ac	2015-01-15 15:17:37.619935870 -0800
+@@ -122,6 +122,9 @@
+ AC_ARG_ENABLE(ssl,
+               [  --enable-ssl        Enable SSL support.],,enable_ssl="auto")
+ 
++AC_ARG_ENABLE(libnet,
++              [  --enable-libnet        Enable libnet support.],,enable_libnet="auto")
++
+ AC_ARG_ENABLE(dynamic-linking,
+               [  --enable-dynamic-linking        Link everything dynamically.],,enable_dynamic_linking="auto")
+ 
+@@ -812,20 +815,22 @@
+ dnl ***************************************************************************
+ dnl libnet headers/libraries
+ dnl ***************************************************************************
+-AC_MSG_CHECKING(for LIBNET)
+-if test "x$with_libnet" = "x"; then
+-        LIBNET_CONFIG="`which libnet-config`"
+-else
+-        LIBNET_CONFIG="$with_libnet/libnet-config"
+-fi
++if test "x$enable_libnet" != "xno"; then
++	AC_MSG_CHECKING(for LIBNET)
++	if test "x$with_libnet" = "x"; then
++        	LIBNET_CONFIG="`which libnet-config`"
++	else
++        	LIBNET_CONFIG="$with_libnet/libnet-config"
++	fi
+ 
+-if test -n "$LIBNET_CONFIG" -a -x "$LIBNET_CONFIG"; then
+-        LIBNET_CFLAGS="`$LIBNET_CONFIG --defines`"
+-        LIBNET_LIBS="`$LIBNET_CONFIG --libs`"
+-        AC_MSG_RESULT(yes)
+-else
+-        LIBNET_LIBS=
+-        AC_MSG_RESULT(no)
++	if test -n "$LIBNET_CONFIG" -a -x "$LIBNET_CONFIG"; then
++        	LIBNET_CFLAGS="`$LIBNET_CONFIG --defines`"
++        	LIBNET_LIBS="`$LIBNET_CONFIG --libs`"
++        	AC_MSG_RESULT(yes)
++	else
++        	LIBNET_LIBS=
++        	AC_MSG_RESULT(no)
++	fi
+ fi
+ 
+ 
