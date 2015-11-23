@@ -13,10 +13,10 @@ https://.*/.* ${DOWNLOADS_MIRRORDIR}/ \n \
 bzr://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
 cvs://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
 git://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
+gitsm://.*/.* ${DOWNLOADS_MIRRORDIR}/ \n \
 hg://.*/.*    ${DOWNLOADS_MIRRORDIR}/ \n \
 osc://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
 p4://.*/.*    ${DOWNLOADS_MIRRORDIR}/ \n \
-svk://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n \
 svn://.*/.*   ${DOWNLOADS_MIRRORDIR}/ \n"
 
 MIRRORS =+ "\
