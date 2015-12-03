@@ -1,1 +1,1 @@
-IMAGE_INSTALL += "syslog-ng"
+IMAGE_INSTALL += "packagegroup-golang"
