@@ -8,4 +8,7 @@
 	branch = jethro
 [submodule "repos/meta-golang"]
 	path = repos/meta-golang
-	url = ssh://git@github.com/madisongh/meta-golang
+	url = https://github.com/madisongh/meta-golang
+[submodule "repos/meta-tegra"]
+	path = repos/meta-tegra
+	url = https://github.com/madisongh/meta-tegra
