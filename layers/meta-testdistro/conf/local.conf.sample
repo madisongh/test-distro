@@ -3,7 +3,7 @@ DISTRO ?= "testdistro"
 #DL_DIR ?= "${TOPDIR}/downloads"
 #SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 #TMPDIR = "${TOPDIR}/tmp"
-PACKAGE_CLASSES ?= "package_deb"
+PACKAGE_CLASSES ?= "package_rpm"
 SDKMACHINE ?= "x86_64"
 
 #
