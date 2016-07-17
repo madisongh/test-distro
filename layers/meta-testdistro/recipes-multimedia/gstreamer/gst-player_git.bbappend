@@ -1,8 +1,0 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
-DEPENDS += "gstreamer1.0-plugins-bad"
-SRCREV = "ecb3636579632212f180b478a00bfd9d8f0ce0a9"
-SRC_URI += "file://add-gtk-doc-check-so-we-can-then-disable-it-duh.patch"
-SRC_URI_remove = "file://filechooser.patch"
-SRC_URI_remove = "file://Fix-pause-play.patch"
-SRC_URI_remove = "file://Add-error-signal-emission-for-missing-plugins.patch"
-LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
