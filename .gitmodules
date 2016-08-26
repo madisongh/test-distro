@@ -12,3 +12,6 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
+[submodule "repos/meta-qcom"]
+	path = repos/meta-qcom
+	url = https://github.com/madisongh/meta-qcom
