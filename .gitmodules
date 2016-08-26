@@ -15,3 +15,4 @@
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
+	branch = rework-for-master
