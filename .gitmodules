@@ -16,3 +16,6 @@
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
 	branch = rework-for-master
+[submodule "repos/meta-openembedded"]
+	path = repos/meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded
