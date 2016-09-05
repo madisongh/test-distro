@@ -15,7 +15,7 @@
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
-	branch = kernel-recipe-cleanup-v2-part2
+	branch = kernel-recipe-cleanup-v3-part2
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
