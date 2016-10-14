@@ -18,3 +18,7 @@
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
 	branch = krogoth
+[submodule "repos/meta-openembedded"]
+	path = repos/meta-openembedded
+	url = git://git.openembedded.org/meta-openembedded
+	branch = krogoth
