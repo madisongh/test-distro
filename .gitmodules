@@ -1,17 +1,19 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
-	branch = master
+	branch = 1.32
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
-	branch = master
+	branch = morty
 [submodule "repos/meta-golang"]
 	path = repos/meta-golang
 	url = https://github.com/madisongh/meta-golang
+	branch = morty
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
+	branch = morty
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
@@ -19,3 +21,4 @@
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
+	branch = morty
