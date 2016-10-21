@@ -7,7 +7,9 @@ inherit packagegroup
 
 RDEPENDS_${PN} = "\
     golang \
-    golang-aws-sdk \
     golang-goprotobuf \
     golang-x-tools \
+    golang-x-text \
+    golang-x-net \
+    golang-x-crypto \
 "
