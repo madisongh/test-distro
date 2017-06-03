@@ -1,7 +1,7 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
-	branch = pyro
+	branch = 1.34
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
