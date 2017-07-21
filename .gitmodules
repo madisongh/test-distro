@@ -9,9 +9,11 @@
 [submodule "repos/meta-golang"]
 	path = repos/meta-golang
 	url = https://github.com/madisongh/meta-golang
+	branch = pyro
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
+	branch = pyro
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
