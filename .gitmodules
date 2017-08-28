@@ -19,3 +19,7 @@
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
+[submodule "repos/meta-linaro"]
+	path = repos/meta-linaro
+	url = https://git.linaro.org/openembedded/meta-linaro.git
+	branch = master

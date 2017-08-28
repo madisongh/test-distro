@@ -7,6 +7,7 @@ BBFILES ?= ""
 
 BBLAYERS ?= " \
   ##OEROOT##/openembedded-core/meta \
+  ##OEROOT##/meta-linaro-toolchain \
   ##OEROOT##/meta-tegra \
   ##OEROOT##/meta-qcom \
   ##OEROOT##/meta-golang \
