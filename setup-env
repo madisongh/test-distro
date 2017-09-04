@@ -3,38 +3,31 @@ if [ -z "$ZSH_NAME"] && [ "x$0" = "x./setup-env" ]; then
     echo "Error: This script needs to be sourced."
     exit 1
 fi
-py_ver_check=`/usr/bin/env python --version 2>&1 | grep "Python 2\.[67]"`
 error_occurred=""
-if [ -z "$py_ver_check" ]; then
-    echo "Error: Python 2.6 or 2.7 required"
-    error_occurred="yes"
+if [ -n "$BASH_SOURCE" ]; then
+    OEROOT="`dirname $BASH_SOURCE`"
+elif [ -n "$ZSH_SOURCE"]; then
+    OEROOT="`dirname $0`"
+else
+    OEROOT="`pwd`"
 fi
-if [ -z "$error_occurred" ]; then
-    if [ -n "$BASH_SOURCE" ]; then
-	OEROOT="`dirname $BASH_SOURCE`"
-    elif [ -n "$ZSH_SOURCE"]; then
-	OEROOT="`dirname $0`"
-    else
-	OEROOT="`pwd`"
+if [ -n "$BBSERVER" ]; then
+    unset BBSERVER
+fi
+if [ "x$1" = "x" ]; then
+    BDIR="build"
+else
+    BDIR="$1"
+fi
+if [ -e "$BDIR" ]; then
+    BDIR=`readlink -f "$BDIR"`
+    if [ ! -d "$BDIR" ]; then
+	echo "Usage: setup-env [dirname]"
+	error_occurred="yes"
     fi
-    if [ -n "$BBSERVER" ]; then
-	unset BBSERVER
-    fi
-    if [ "x$1" = "x" ]; then
-	BDIR="build"
-    else
-	BDIR="$1"
-    fi
-    if [ -e "$BDIR" ]; then
-	BDIR=`readlink -f "$BDIR"`
-	if [ ! -d "$BDIR" ]; then
-	    echo "Usage: setup-env [dirname]"
-	    error_occurred="yes"
-	fi
-    else
-	mkdir -p "$BDIR"
-	BDIR=`readlink -f "$BDIR"`
-    fi
+else
+    mkdir -p "$BDIR"
+    BDIR=`readlink -f "$BDIR"`
 fi
 # Allow for multiple layer sets,
 # default just "layers"
