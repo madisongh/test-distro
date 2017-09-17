@@ -1,4 +1,5 @@
 RDEPENDS_${PN} += "\
-    golang-runtime \
-    golang-runtime-dev \
+    go-runtime \
+    go-runtime-dev \
+    go-runtime-staticdev \
 "

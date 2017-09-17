@@ -1,1 +1,1 @@
-RDEPENDS_${PN} += "golang-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+RDEPENDS_${PN} += "go-cross-canadian-${TRANSLATED_TARGET_ARCH}"

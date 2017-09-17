@@ -6,10 +6,12 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 RDEPENDS_${PN} = "\
-    golang \
+    go \
     golang-goprotobuf \
-    golang-x-tools \
-    golang-x-text \
-    golang-x-net \
     golang-x-crypto \
+    golang-x-net \
+    golang-x-text \
+    golang-x-tools \
+    go-helloworld \
+    go-dep \
 "
