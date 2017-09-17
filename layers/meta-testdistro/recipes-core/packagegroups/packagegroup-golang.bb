@@ -8,7 +8,6 @@ inherit packagegroup
 RDEPENDS_${PN} = "\
     go \
     golang-goprotobuf \
-    golang-x-crypto \
     golang-x-net \
     golang-x-text \
     golang-x-tools \
