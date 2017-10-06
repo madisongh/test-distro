@@ -1,11 +1,11 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
-	branch = master
+	branch = 1.36
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
-	branch = master
+	branch = rocko
 [submodule "repos/meta-golang"]
 	path = repos/meta-golang
 	url = https://github.com/madisongh/meta-golang
@@ -13,6 +13,7 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
+	branch = rocko
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
