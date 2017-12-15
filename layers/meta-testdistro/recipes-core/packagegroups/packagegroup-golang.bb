@@ -7,10 +7,6 @@ inherit packagegroup
 
 RDEPENDS_${PN} = "\
     go \
-    golang-goprotobuf \
-    golang-x-net \
-    golang-x-text \
-    golang-x-tools \
     go-helloworld \
     go-dep \
 "
