@@ -6,10 +6,6 @@
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
 	branch = master
-[submodule "repos/meta-golang"]
-	path = repos/meta-golang
-	url = https://github.com/madisongh/meta-golang
-	branch = master-next
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra

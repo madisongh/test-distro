@@ -10,7 +10,6 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-linaro-toolchain \
   ##OEROOT##/meta-tegra \
   ##OEROOT##/meta-qcom \
-  ##OEROOT##/meta-golang \
   ##OEROOT##/meta-testdistro \
   "
 
