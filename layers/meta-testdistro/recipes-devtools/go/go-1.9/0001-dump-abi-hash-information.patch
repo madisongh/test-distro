@@ -1,0 +1,96 @@
+From 5047e335fc6a516de1f9a67b2ce48633de7184ef Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Sun, 11 Mar 2018 08:15:47 -0700
+Subject: [PATCH] dump abi hash information
+
+---
+ src/cmd/compile/internal/gc/obj.go | 11 +++++++++++
+ src/cmd/link/internal/ld/elf.go    |  2 ++
+ src/cmd/pack/pack.go               |  8 ++------
+ 3 files changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/src/cmd/compile/internal/gc/obj.go b/src/cmd/compile/internal/gc/obj.go
+index 83e64e728e..ffaa959569 100644
+--- a/src/cmd/compile/internal/gc/obj.go
++++ b/src/cmd/compile/internal/gc/obj.go
+@@ -13,6 +13,7 @@ import (
+ 	"fmt"
+ 	"io"
+ 	"strconv"
++	"strings"
+ )
+ 
+ // architecture-independent object file output
+@@ -74,6 +75,16 @@ func dumpobj1(outfile string, mode int) {
+ 	}
+ 
+ 	printheader := func() {
++		path := strings.Split(outfile, "/")
++		start := 0
++		for i, elem := range path {
++			if strings.HasPrefix(elem, "go-build") {
++				start = i + 1
++				break
++			}
++		}
++		fmt.Printf("%s: go object %s %s %s %s\n", strings.Join(path[start:], "/"), objabi.GOOS,
++			objabi.GOARCH, objabi.Version, objabi.Expstring())
+ 		fmt.Fprintf(bout, "go object %s %s %s %s\n", objabi.GOOS, objabi.GOARCH, objabi.Version, objabi.Expstring())
+ 		if buildid != "" {
+ 			fmt.Fprintf(bout, "build id %q\n", buildid)
+diff --git a/src/cmd/link/internal/ld/elf.go b/src/cmd/link/internal/ld/elf.go
+index 0fc947fec2..52f8103c1d 100644
+--- a/src/cmd/link/internal/ld/elf.go
++++ b/src/cmd/link/internal/ld/elf.go
+@@ -14,6 +14,7 @@ import (
+ 	"path/filepath"
+ 	"sort"
+ 	"strings"
++	"fmt"
+ )
+ 
+ /*
+@@ -2128,6 +2129,7 @@ func (ctxt *Link) doelf() {
+ 		sort.Sort(byPkg(ctxt.Library))
+ 		h := sha1.New()
+ 		for _, l := range ctxt.Library {
++			fmt.Printf("buildshared: pkg %s hash %s\n", l.Pkg, l.hash)
+ 			io.WriteString(h, l.hash)
+ 		}
+ 		addgonote(ctxt, ".note.go.abihash", ELF_NOTE_GOABIHASH_TAG, h.Sum([]byte{}))
+diff --git a/src/cmd/pack/pack.go b/src/cmd/pack/pack.go
+index 1c168f946b..65d9237bbc 100644
+--- a/src/cmd/pack/pack.go
++++ b/src/cmd/pack/pack.go
+@@ -105,6 +105,7 @@ func setOp(arg string) {
+ 		arg = "c"
+ 	}
+ 
++	verbose = true
+ 	for _, r := range arg {
+ 		switch r {
+ 		case 'c', 'p', 'r', 't', 'x':
+@@ -114,11 +115,6 @@ func setOp(arg string) {
+ 			}
+ 			op = r
+ 		case 'v':
+-			if verbose {
+-				// Can be set only once.
+-				usage()
+-			}
+-			verbose = true
+ 		default:
+ 			usage()
+ 		}
+@@ -403,7 +399,7 @@ func (ar *Archive) addPkgdef() {
+ 			continue
+ 		}
+ 		if verbose {
+-			fmt.Printf("__.PKGDEF # %s\n", file)
++			fmt.Printf("__.PKGDEF # %s: %s\n", file, pkgdef)
+ 		}
+ 		ar.startFile("__.PKGDEF", 0, 0, 0, 0644, int64(len(pkgdef)))
+ 		_, err = ar.fd.Write(pkgdef)
+-- 
+2.14.1
+
