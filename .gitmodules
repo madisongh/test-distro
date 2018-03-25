@@ -22,7 +22,3 @@
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
 	branch = rocko
-[submodule "repos/meta-linaro"]
-	path = repos/meta-linaro
-	url = https://git.linaro.org/openembedded/meta-linaro.git
-	branch = rocko
