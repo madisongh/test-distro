@@ -13,7 +13,7 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = wip-rocko-l4t-r28.2
+	branch = rocko-l4t-r28.2
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
