@@ -1,15 +1,15 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
-	branch = master
+	branch = 1.38
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
-	branch = master
+	branch = sumo
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = master
+	branch = sumo
 [submodule "repos/meta-qcom"]
 	path = repos/meta-qcom
 	url = https://github.com/madisongh/meta-qcom
