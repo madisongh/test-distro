@@ -14,10 +14,6 @@
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
 	branch = rocko-l4t-r28.2
-[submodule "repos/meta-qcom"]
-	path = repos/meta-qcom
-	url = https://github.com/madisongh/meta-qcom
-	branch = rocko
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
