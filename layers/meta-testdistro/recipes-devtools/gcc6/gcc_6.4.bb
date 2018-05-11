@@ -1,4 +1,4 @@
-require recipes-devtools/gcc/gcc-${PV}.inc
+require recipes-devtools/gcc6/gcc-${PV}.inc
 require gcc-target.inc
 
 # Building with thumb enabled on armv4t fails with
