@@ -1,3 +1,3 @@
-require recipes-devtools/gcc/gcc-${PV}.inc
+require recipes-devtools/gcc5/gcc-${PV}.inc
 require libgfortran.inc
 
