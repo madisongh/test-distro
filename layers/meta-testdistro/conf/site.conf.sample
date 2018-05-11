@@ -1,7 +1,7 @@
 SCONF_VERSION = "1"
 
 SSTATE_MIRRORDIR ?= "file:///archive/distros/test-distro/sstate_mirror"
-DOWNLOADS_MIRRORDIR ?= "file:///archive/distros/downloads"
+DOWNLOADS_MIRRORDIR ?= "file:///archive/distros/test-distro/downloads"
 
 SSTATE_MIRRORS ?= "\
 file://.* ${SSTATE_MIRRORDIR}/PATH"
