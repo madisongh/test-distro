@@ -3,9 +3,8 @@ DISTRO ?= "testdistro"
 #DL_DIR ?= "${TOPDIR}/downloads"
 #SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 #TMPDIR = "${TOPDIR}/tmp"
-PACKAGE_CLASSES ?= "package_deb"
 SDKMACHINE ?= "x86_64"
-
+EXTRA_IMAGE_FEATURES ?= "empty-root-password allow-empty-password"
 #
 # Extra image configuration defaults
 #
