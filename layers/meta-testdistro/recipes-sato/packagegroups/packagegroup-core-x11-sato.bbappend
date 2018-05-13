@@ -1,2 +1,5 @@
-RDEPENDS_${PN}-apps_remove = "gst-player"
-RDEPENDS_${PN}-apps += "gst-player-bin"
+EXTRA_APPS = ""
+EXTRA_APPS_tegra186 = "tegra-mmapi-samples"
+EXTRA_APPS_tegra210 = "tegra-mmapi-samples"
+RDEPENDS_${PN}-apps += "${EXTRA_APPS}"
+
