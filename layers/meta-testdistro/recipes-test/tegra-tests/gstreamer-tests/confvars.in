@@ -1,0 +1,2 @@
+AUDIOSINK="autoaudiosink"
+VIDEOSINK="nveglglessink"
