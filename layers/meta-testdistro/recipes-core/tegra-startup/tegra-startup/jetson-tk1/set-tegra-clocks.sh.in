@@ -1,0 +1,11 @@
+#!/bin/sh
+echo "0" > /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable
+for i in 0 1 2 3; do
+    echo "1" > /sys/devices/system/cpu/cpu$i/online
+done
+echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+gpumax=`cat /sys/kernel/debug/clock/gbus/max`
+if [ -n "$gpumax" ]; then
+    echo ${gpumax} > /sys/kernel/debug/clock/override.gbus/rate
+    echo 1 > /sys/kernel/debug/clock/override.gbus/state
+fi
