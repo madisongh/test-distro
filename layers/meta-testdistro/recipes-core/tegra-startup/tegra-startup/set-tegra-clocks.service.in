@@ -1,0 +1,10 @@
+[Unit]
+Description=Set Tegra clocks
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=@SBINDIR@/set-tegra-clocks
+
+[Install]
+WantedBy=multi-user.target
