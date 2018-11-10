@@ -79,4 +79,4 @@ do_install() {
 FILES_${PN} += "/opt/tegra-mmapi"
 RDEPENDS_${PN} += "tegra-libraries-libv4l-plugins"
 
-#DEFAULT_PREFERENCE = "-1"
+DEFAULT_PREFERENCE = "-1"
