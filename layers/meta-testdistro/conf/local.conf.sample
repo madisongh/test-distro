@@ -4,7 +4,7 @@ DISTRO ?= "testdistro"
 #SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 #TMPDIR = "${TOPDIR}/tmp"
 SDKMACHINE ?= "x86_64"
-EXTRA_IMAGE_FEATURES ?= "empty-root-password allow-empty-password"
+EXTRA_IMAGE_FEATURES ?= "empty-root-password allow-empty-password allow-root-login"
 #
 # Extra image configuration defaults
 #
