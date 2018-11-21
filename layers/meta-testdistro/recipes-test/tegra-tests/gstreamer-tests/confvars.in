@@ -1,2 +1,8 @@
+#!/bin/sh
+if [ -n "$WAYLAND_DISPLAY" ]; then
+    unset DISPLAY
+    VIDEOSINK="nveglglessink winsys=wayland"
+else
+    VIDEOSINK="nveglglessink"
+fi
 AUDIOSINK="autoaudiosink"
-VIDEOSINK="nveglglessink"
