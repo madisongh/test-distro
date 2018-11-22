@@ -1,5 +1,7 @@
 [Unit]
 Description=Set Tegra clocks
+After=nvstartup.service
+Before=xserver-nodm.service weston.service
 
 [Service]
 Type=oneshot
