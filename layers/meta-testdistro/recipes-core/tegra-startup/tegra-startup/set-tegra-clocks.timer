@@ -1,0 +1,8 @@
+[Unit]
+Description=Tegra clock setting delay
+
+[Timer]
+OnBootSec=60
+
+[Install]
+WantedBy=timers.target

@@ -8,6 +8,7 @@ COMPATIBLE_MACHINE_tegra = "(tegra)"
 SRC_URI = "\
 	file://set-tegra-clocks.sh.in \
 	file://set-tegra-clocks.service.in \
+	file://set-tegra-clocks.timer \
 "
 
 S = "${WORKDIR}"
@@ -27,8 +28,10 @@ do_install() {
     install -m 0755 ${B}/set-tegra-clocks.sh ${D}${sbindir}/set-tegra-clocks
     install -d ${D}${systemd_system_unitdir}
     install -m 0644 ${B}/set-tegra-clocks.service ${D}${systemd_system_unitdir}
+    install -m 0644 ${S}/set-tegra-clocks.timer ${D}${systemd_system_unitdir}
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-SYSTEMD_SERVICE_${PN} = "set-tegra-clocks.service"
+FILES_${PN} += "${systemd_system_unitdir}"
+SYSTEMD_SERVICE_${PN} = "set-tegra-clocks.timer"
 ALLOW_EMPTY_${PN} = "1"
