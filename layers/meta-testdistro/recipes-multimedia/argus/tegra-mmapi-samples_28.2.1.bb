@@ -50,7 +50,7 @@ do_compile() {
     export LDFLAGS="-L${STAGING_DIR_TARGET}/usr/local/cuda-9.0/lib ${LDFLAGS}"
     export CFLAGS="${CFLAGS} `pkg-config --cflags opencv`"
     CCBIN=`which $CPP`
-    oe_runmake -j1 all TEGRA_ARMABI=${TARGET_ARCH} TARGET_ROOTFS=${STAGING_DIR_TARGET} NVCC=nvcc NVCCFLAGS="--shared -ccbin=${CCBIN} --std=c++11"
+    oe_runmake -j1 all TEGRA_ARMABI=${TARGET_ARCH} TARGET_ROOTFS=${STAGING_DIR_TARGET} NVCC=nvcc NVCCFLAGS="--shared -ccbin=${CCBIN} --std=c++11" GENCODE_FLAGS="${CUDA_NVCC_ARCH_FLAGS}"
 }
 
 do_install() {
