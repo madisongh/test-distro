@@ -7,6 +7,7 @@ SRC_URI = "https://developer.download.nvidia.com/devzone/devcenter/mobile/jetpac
            file://jpeg-fixups.patch \
            file://cross-build-fixups.patch \
            file://vector-fixup.patch \
+           file://v4l2cuda-fixup.patch \
 "
 SRC_URI[md5sum] = "ffc676c2bfae02c74c7520e7b72ab757"
 SRC_URI[sha256sum] = "cad2f36d5eb8be36984a0c1dcb4d8055c718b5f9da23ec52843cc48e47291466"
