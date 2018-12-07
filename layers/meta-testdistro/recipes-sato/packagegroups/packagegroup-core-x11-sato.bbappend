@@ -1,4 +1,4 @@
-EXTRA_APPS = "gstreamer-tests ifupdown haveged"
+EXTRA_APPS = "gstreamer-tests ifupdown rng-tools"
 EXTRA_DRIVERS = ""
 EXTRA_APPS_append_tegra124 = " mesa-demos"
 EXTRA_APPS_append_tegra186 = " mesa-demos tegra-mmapi-samples cuda-samples"
