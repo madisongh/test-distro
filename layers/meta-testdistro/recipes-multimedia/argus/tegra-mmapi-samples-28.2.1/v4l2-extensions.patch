@@ -1,0 +1,19 @@
+Index: tegra_multimedia_api/include/v4l2_nv_extensions.h
+===================================================================
+--- tegra_multimedia_api.orig/include/v4l2_nv_extensions.h
++++ tegra_multimedia_api/include/v4l2_nv_extensions.h
+@@ -61,8 +61,13 @@
+ #define V4L2_PIX_FMT_VP9      v4l2_fourcc('V', 'P', '9', '0')
+ 
+ /** @cond UNUSED */
+-
++#ifdef V4L2_PIX_FMT_YUV444M
++#undef V4L2_PIX_FMT_YUV444M
++#endif
+ #define V4L2_PIX_FMT_YUV444M v4l2_fourcc('Y', 'M', '4', '4')
++#ifdef V4L2_PIX_FMT_YUV422M
++#undef V4L2_PIX_FMT_YUV422M
++#endif
+ #define V4L2_PIX_FMT_YUV422M v4l2_fourcc('4', '2', '2', 'M')
+ #define V4L2_PIX_FMT_YUV422RM v4l2_fourcc('4', '2', 'R', 'M')
+ 
