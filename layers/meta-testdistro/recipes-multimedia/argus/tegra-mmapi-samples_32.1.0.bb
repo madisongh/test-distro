@@ -2,16 +2,14 @@ DESCRIPTION = "NVIDIA Tegra Multimedia API headers and examples"
 HOMEPAGE = "http://developer.nvidia.com"
 LICENSE = "Proprietary & BSD"
 
-SRC_URI = "https://developer.download.nvidia.com/embedded/L4T/r31_Release_v1.0/BSP/Tegra_Multimedia_API_R${PV}_aarch64.tbz2 \
+require recipes-multimedia/argus/tegra-mmapi-${PV}.inc
+
+SRC_URI += " \
            file://remove-xxd-reference.patch \
            file://jpeg-fixups.patch \
            file://cross-build-fixups.patch \
            file://vector-fixup.patch \
 "
-SRC_URI[md5sum] = "65f1812bf594d8fe8346c2325cf930f6"
-SRC_URI[sha256sum] = "cdf379e2a578d93b5c7b7ac6c7b89c545892eded23c5dbcfe48f490ea4a52478"
-COMPATIBLE_MACHINE = "(tegra186|tegra194)"
-PACKAGE_ARCH = "${SOC_FAMILY_PKGARCH}"
 
 DEPENDS = "libdrm tegra-mmapi virtual/egl virtual/libgles1 virtual/libgles2 jpeg expat gstreamer1.0 glib-2.0 v4l-utils tensorrt cudnn opencv coreutils-native"
 
@@ -79,4 +77,3 @@ do_install() {
 FILES_${PN} += "/opt/tegra-mmapi"
 RDEPENDS_${PN} += "tegra-libraries-libv4l-plugins"
 
-DEFAULT_PREFERENCE = "-1"
