@@ -31,4 +31,6 @@ do_install() {
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-RDEPENDS_${PN} = "gst-player gstreamer1.0"
+EXTRA_RDEPENDS = " gstreamer1.0-plugins-nvvideo4linux2 gstreamer1.0-plugins-good-video4linux2"
+EXTRA_RDEPENDS_tegra124 = ""
+RDEPENDS_${PN} = "gst-player gstreamer1.0${EXTRA_RDEPENDS}"
