@@ -2,8 +2,9 @@ DESCRIPTION = "NVIDIA Tegra Multimedia API headers and examples"
 HOMEPAGE = "http://developer.nvidia.com"
 LICENSE = "Proprietary & BSD"
 
-SOC_FAMILY ??= "tegra186"
-require recipes-multimedia/argus/tegra-mmapi-${SOC_FAMILY}-28.3.0.inc
+INCNAME = "tegra186"
+INCNAME_tegra210 = "tegra210"
+require recipes-multimedia/argus/tegra-mmapi-${INCNAME}-28.3.0.inc
 
 SRC_URI += "\
            file://remove-xxd-reference.patch \
