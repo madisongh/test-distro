@@ -13,4 +13,4 @@
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
-	branch = master
+	branch = warrior
