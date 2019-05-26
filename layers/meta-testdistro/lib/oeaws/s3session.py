@@ -23,7 +23,9 @@ class S3Session(object):
         self.s3client = None
 
     def makeclient(self):
-        self.s3client = boto3.Session().client('s3')
+        session = botocore.session.get_session()
+        session.get_component('credential_provider').get_provider('assume-role').cache = botocore.credentials.JSONFileCache()
+        self.s3client = boto3.Session(botocore_session=session).client('s3')
 
     def upload(self, Filename, Bucket, Key):
         if self.s3client is None:
