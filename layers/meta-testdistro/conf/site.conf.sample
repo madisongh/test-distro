@@ -1,7 +1,7 @@
-SCONF_VERSION = "1"
+SCONF_VERSION = "2"
 
-SSTATE_MIRRORDIR ?= "file:///archive/distros/test-distro/sstate_mirror"
-DOWNLOADS_MIRRORDIR ?= "file:///archive/distros/test-distro/downloads"
+SSTATE_MIRRORDIR ?= "s3://autobuilder-artifacts/test-distro/sstate_mirror"
+DOWNLOADS_MIRRORDIR ?= "s3://autobuilder-artifacts/test-distro/downloads"
 UNINATIVE_MIRRORDIR = "${DOWNLOADS_MIRRORDIR}/uninative/${@d.getVarFlag('UNINATIVE_CHECKSUM', d.getVar('BUILD_ARCH', True), True)}"
 
 SSTATE_MIRRORS ?= "\
