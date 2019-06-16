@@ -1,0 +1,26 @@
+From cad7f4457bcbba36290993d02a65db0103b026e7 Mon Sep 17 00:00:00 2001
+From: Yu Watanabe <watanabe.yu+github@gmail.com>
+Date: Sun, 28 Apr 2019 09:06:13 +0200
+Subject: [PATCH] network: drop invalid assertion
+
+The link may not have corresponding .network file.
+Note that in that case, link_ipv4ll_enabled() and link_dhcp4_enabled()
+returns false. So, it is safe to drop the assertion.
+
+Fixes #12422.
+---
+ src/network/networkd-link.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
+index e466b96792..28e2e6df3d 100644
+--- a/src/network/networkd-link.c
++++ b/src/network/networkd-link.c
+@@ -1850,7 +1850,6 @@ static int link_acquire_ipv4_conf(Link *link) {
+         int r;
+ 
+         assert(link);
+-        assert(link->network);
+         assert(link->manager);
+         assert(link->manager->event);
+ 

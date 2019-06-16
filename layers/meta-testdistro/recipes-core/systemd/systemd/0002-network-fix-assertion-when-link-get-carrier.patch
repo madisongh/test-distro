@@ -1,0 +1,36 @@
+From 5a606819d6ccbb57320359da1b43d2eb9790d257 Mon Sep 17 00:00:00 2001
+From: Yu Watanabe <watanabe.yu+github@gmail.com>
+Date: Fri, 3 May 2019 01:13:10 +0200
+Subject: [PATCH] network: fix assertion when link get carrier
+
+This fixes a bug introduced by bd08ce56156751d58584a44e766ef61340cdae2d.
+When link is in LINK_STATE_INITIALIZED, `Link::network` may not be
+set yet.
+
+Fixes #12452.
+---
+ src/network/networkd-link.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
+index 28e2e6df3d..27e3dd9f11 100644
+--- a/src/network/networkd-link.c
++++ b/src/network/networkd-link.c
+@@ -3730,7 +3730,7 @@ int link_ipv6ll_gained(Link *link, const struct in6_addr *address) {
+         link->ipv6ll_address = *address;
+         link_check_ready(link);
+ 
+-        if (!IN_SET(link->state, LINK_STATE_PENDING, LINK_STATE_UNMANAGED, LINK_STATE_FAILED)) {
++        if (IN_SET(link->state, LINK_STATE_CONFIGURING, LINK_STATE_CONFIGURED)) {
+                 r = link_acquire_ipv6_conf(link);
+                 if (r < 0) {
+                         link_enter_failed(link);
+@@ -3746,7 +3746,7 @@ static int link_carrier_gained(Link *link) {
+ 
+         assert(link);
+ 
+-        if (!IN_SET(link->state, LINK_STATE_PENDING, LINK_STATE_UNMANAGED, LINK_STATE_FAILED)) {
++        if (IN_SET(link->state, LINK_STATE_CONFIGURING, LINK_STATE_CONFIGURED)) {
+                 r = link_acquire_conf(link);
+                 if (r < 0) {
+                         link_enter_failed(link);
