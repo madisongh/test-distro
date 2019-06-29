@@ -20,5 +20,7 @@ S = "${WORKDIR}/git"
 
 inherit go
 
+RDEPENDS_${PN}-ptest = "${PN}-dev"
+INSANE_SKIP_${PN}-ptest = "dev-deps"
 RDEPENDS_${PN}-dev = "bash"
 BBCLASSEXTEND = "native nativesdk"

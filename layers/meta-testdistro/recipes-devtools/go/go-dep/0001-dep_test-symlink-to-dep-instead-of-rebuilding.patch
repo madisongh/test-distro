@@ -1,0 +1,39 @@
+From 80b4c52716ea1adf8674844f74f755a999b2c15e Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Wed, 26 Jun 2019 05:14:39 -0700
+Subject: [PATCH] dep_test: symlink to dep instead of rebuilding
+
+---
+ cmd/dep/dep_test.go | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/src/github.com/golang/dep/cmd/dep/dep_test.go b/src/github.com/golang/dep/cmd/dep/dep_test.go
+index 687eef3a..535ca56d 100644
+--- a/src/github.com/golang/dep/cmd/dep/dep_test.go
++++ b/src/github.com/golang/dep/cmd/dep/dep_test.go
+@@ -18,13 +18,18 @@ import (
+ // deletes it after the tests have been run.
+ // Most of this is taken from https://github.com/golang/go/blob/master/src/cmd/go/go_test.go and reused here.
+ func TestMain(m *testing.M) {
+-	args := []string{"build", "-o", "testdep" + test.ExeSuffix}
+-	out, err := exec.Command("go", args...).CombinedOutput()
++	args := []string{"dep"}
++	out, err := exec.Command("which", args...).CombinedOutput()
+ 	if err != nil {
+-		fmt.Fprintf(os.Stderr, "building testdep failed: %v\n%s", err, out)
++		fmt.Fprintf(os.Stderr, "finding dep failed: %v\n%s", err, out)
++		os.Exit(2)
++	}
++	args = []string{"-s", string(out[:len(out)-1]), "testdep" + test.ExeSuffix}
++	out, err = exec.Command("ln", args...).CombinedOutput()
++	if err != nil {
++		fmt.Fprintf(os.Stderr, "symlinking dep failed: %v\n%s", err, out)
+ 		os.Exit(2)
+ 	}
+-
+ 	// Don't let these environment variables confuse the test.
+ 	os.Unsetenv("GOPATH")
+ 	os.Unsetenv("GIT_ALLOW_PROTOCOL")
+-- 
+2.20.1
+

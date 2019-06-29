@@ -22,3 +22,4 @@ S = "${WORKDIR}/git"
 inherit go
 
 BBCLASSEXTEND = "native nativesdk"
+ALLOW_EMPTY_${PN} = "1"
