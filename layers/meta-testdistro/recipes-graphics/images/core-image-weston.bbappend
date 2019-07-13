@@ -7,9 +7,3 @@ EXTRA_APPS_append_tegra186 = " cuda-samples kernel-modules ${X11APPS}"
 EXTRA_APPS_append_tegra194 = " cuda-samples kernel-modules ${X11APPS}"
 EXTRA_APPS_append_tegra210 = " cuda-samples kernel-modules ${X11APPS}"
 CORE_IMAGE_BASE_INSTALL += "${EXTRA_APPS}"
-
-ROOTFS_POSTPROCESS_COMMAND += " remove_networking_service_symlink;"
-
-remove_networking_service_symlink() {
-    rm -f ${IMAGE_ROOTFS}/etc/systemd/system/networking.service
-}
