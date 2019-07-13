@@ -45,8 +45,8 @@ do_compile() {
     PATH=$CUDA_PATH/bin:$PATH
     export CPPFLAGS="${CXX_EXTRA} ${CXXFLAGS} -I${STAGING_DIR_TARGET}/usr/local/cuda-${CUDA_VERSION}/include"
     CPPFLAGS="$CPPFLAGS `pkg-config --cflags libdrm`"
+    CPPFLAGS="$CPPFLAGS `pkg-config --cflags opencv4`"
     export LDFLAGS="-L${STAGING_DIR_TARGET}/usr/local/cuda-${CUDA_VERSION}/lib ${LDFLAGS}"
-    export CFLAGS="${CFLAGS} `pkg-config --cflags opencv`"
     CCBIN=`which $CPP`
     oe_runmake -j1 all TEGRA_ARMABI=${TARGET_ARCH} TARGET_ROOTFS=${STAGING_DIR_TARGET} NVCC=nvcc NVCCFLAGS="--shared -ccbin=${CCBIN}" GENCODE_FLAGS="${CUDA_NVCC_ARCH_FLAGS}"
 }
