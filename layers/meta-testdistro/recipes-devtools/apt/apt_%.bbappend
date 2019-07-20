@@ -1,3 +1,1 @@
-do_install_append() {
-	chmod 755 ${D}${libdir}/apt/apt.systemd.daily
-}
+RDEPENDS_${PN} += "util-linux-flock"
