@@ -2,24 +2,18 @@ DESCRIPTION = "NVIDIA Tegra Multimedia API headers and examples"
 HOMEPAGE = "http://developer.nvidia.com"
 LICENSE = "Proprietary & BSD"
 
-INCNAME = "tegra186"
-INCNAME_tegra210 = "tegra210"
-require recipes-multimedia/argus/tegra-mmapi-${INCNAME}-28.3.0.inc
+require recipes-multimedia/argus/tegra-mmapi-${PV}.inc
 
-SRC_URI += "\
+SRC_URI += " \
            file://remove-xxd-reference.patch \
            file://jpeg-fixups.patch \
            file://cross-build-fixups.patch \
            file://vector-fixup.patch \
-           file://v4l2cuda-fixup.patch \
-           file://v4l2-extensions.patch \
 "
-COMPATIBLE_MACHINE = "(tegra186|tegra210)"
-PACKAGE_ARCH = "${SOC_FAMILY_PKGARCH}"
 
 DEPENDS = "libdrm tegra-mmapi virtual/egl virtual/libgles1 virtual/libgles2 jpeg expat gstreamer1.0 glib-2.0 v4l-utils tensorrt cudnn opencv coreutils-native"
 
-LIC_FILES_CHKSUM = "file://LICENSE;md5=2174e6214d83da8e19ab6510ffa71336 \
+LIC_FILES_CHKSUM = "file://LICENSE;md5=2cc00be68c1227a7c42ff3620ef75d05 \
 		    file://argus/LICENSE.TXT;md5=271791ce6ff6f928d44a848145021687"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
@@ -47,14 +41,14 @@ do_compile() {
     VERBOSE=1 cmake --build '${B}/argus' -- ${EXTRA_OECMAKE_BUILD}
     export CPP=`echo ${CXX} | sed -e's, .*,,'`
     CXX_EXTRA=`echo ${CXX} | sed -e's,^[^ ]*,,'`
-    export CUDA_PATH=${STAGING_DIR_NATIVE}/usr/local/cuda-9.0
+    export CUDA_PATH=${STAGING_DIR_NATIVE}/usr/local/cuda-${CUDA_VERSION}
     PATH=$CUDA_PATH/bin:$PATH
-    export CPPFLAGS="${CXX_EXTRA} ${CXXFLAGS} -std=c++11 -I${STAGING_DIR_TARGET}/usr/local/cuda-9.0/include"
+    export CPPFLAGS="${CXX_EXTRA} ${CXXFLAGS} -I${STAGING_DIR_TARGET}/usr/local/cuda-${CUDA_VERSION}/include"
     CPPFLAGS="$CPPFLAGS `pkg-config --cflags libdrm`"
-    export LDFLAGS="-L${STAGING_DIR_TARGET}/usr/local/cuda-9.0/lib ${LDFLAGS}"
+    export LDFLAGS="-L${STAGING_DIR_TARGET}/usr/local/cuda-${CUDA_VERSION}/lib ${LDFLAGS}"
     export CFLAGS="${CFLAGS} `pkg-config --cflags opencv`"
     CCBIN=`which $CPP`
-    oe_runmake -j1 all TEGRA_ARMABI=${TARGET_ARCH} TARGET_ROOTFS=${STAGING_DIR_TARGET} NVCC=nvcc NVCCFLAGS="--shared -ccbin=${CCBIN} --std=c++11" GENCODE_FLAGS="${CUDA_NVCC_ARCH_FLAGS}"
+    oe_runmake -j1 all TEGRA_ARMABI=${TARGET_ARCH} TARGET_ROOTFS=${STAGING_DIR_TARGET} NVCC=nvcc NVCCFLAGS="--shared -ccbin=${CCBIN}" GENCODE_FLAGS="${CUDA_NVCC_ARCH_FLAGS}"
 }
 
 do_install() {
@@ -82,3 +76,4 @@ do_install() {
 
 FILES_${PN} += "/opt/tegra-mmapi"
 RDEPENDS_${PN} += "tegra-libraries-libv4l-plugins"
+

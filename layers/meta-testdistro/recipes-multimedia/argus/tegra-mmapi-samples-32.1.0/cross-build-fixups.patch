@@ -80,15 +80,47 @@ Index: tegra_multimedia_api/samples/v4l2cuda/Makefile
 ===================================================================
 --- tegra_multimedia_api.orig/samples/v4l2cuda/Makefile
 +++ tegra_multimedia_api/samples/v4l2cuda/Makefile
-@@ -28,10 +28,7 @@ SRCS := \
+@@ -26,14 +26,8 @@ SRCS := \
+ 	capture.cpp \
+ 	yuv2rgb.cu
  
- ALL_CPPFLAGS := $(addprefix -Xcompiler ,$(filter-out -std=c++11, $(CPPFLAGS)))
+-ALL_CPPFLAGS := $(addprefix -Xcompiler ,$(filter-out -std=c++11, $(CPPFLAGS)))
+-
+-# CUDA code generation flags
+-GENCODE_SM53 := -gencode arch=compute_53,code=sm_53
+-GENCODE_SM62 := -gencode arch=compute_62,code=sm_62
+-GENCODE_SM72 := -gencode arch=compute_72,code=sm_72
+-GENCODE_SM_PTX := -gencode arch=compute_72,code=compute_72
+-GENCODE_FLAGS := $(GENCODE_SM53) $(GENCODE_SM62) $(GENCODE_SM72) $(GENCODE_SM_PTX)
++ALL_CPPFLAGS := $(NVCCFLAGS)
++ALL_CPPFLAGS += $(addprefix -Xcompiler ,$(filter-out -std=c++11, $(CPPFLAGS)))
+ 
+ all: $(APP)
+ 
+@@ -47,7 +41,7 @@ yuv2rgb.o: yuv2rgb.cu
+ 
+ $(APP): capture.o yuv2rgb.o
+ 	@echo "Linking: $@"
+-	$(CPP) -o $@ $^ $(CPPFLAGS) $(LDFLAGS)
++	$(CPP) -o $@ $^ $(CPPFLAGS) $(LDFLAGS) $(NVLDFLAGS)
+ 
+ clean:
+ 	$(AT) rm -f *.o $(APP)
+Index: tegra_multimedia_api/samples/common/algorithm/cuda/Makefile
+===================================================================
+--- tegra_multimedia_api.orig/samples/common/algorithm/cuda/Makefile
++++ tegra_multimedia_api/samples/common/algorithm/cuda/Makefile
+@@ -43,13 +43,6 @@ endif
+ ALL_CPPFLAGS := $(NVCCFLAGS)
+ ALL_CPPFLAGS += $(addprefix -Xcompiler ,$(filter-out -std=c++11, $(CPPFLAGS)))
  
 -# CUDA code generation flags
 -GENCODE_SM53 := -gencode arch=compute_53,code=sm_53
 -GENCODE_SM62 := -gencode arch=compute_62,code=sm_62
--GENCODE_FLAGS := $(GENCODE_SM53) $(GENCODE_SM62)
-+GENCODE_FLAGS := $(NVCCFLAGS)
- 
- all: $(APP)
+-GENCODE_SM72 := -gencode arch=compute_72,code=sm_72
+-GENCODE_SM_PTX := -gencode arch=compute_72,code=compute_72
+-GENCODE_FLAGS := $(GENCODE_SM53) $(GENCODE_SM62) $(GENCODE_SM72) $(GENCODE_SM_PTX)
+-
+ # Target rules
+ all: NvAnalysis.o NvCudaProc.o
  
