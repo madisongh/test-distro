@@ -26,7 +26,9 @@ class S3(bb.fetch2.s3.S3):
         return self.session.get_object_info(ud.host, ud.path[1:]) is not None
 
     def download(self, ud, d):
-        return self.session.download(ud.host, ud.path[1:], ud.localpath)
+        if not self.session.download(ud.host, ud.path[1:], ud.localpath):
+            raise bb.fetch2.FetchError("could not download s3://%s%s" % (ud.host, ud.path))
+        return True
 
 try:
     import oeaws.s3session
