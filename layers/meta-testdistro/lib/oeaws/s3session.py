@@ -19,9 +19,13 @@ import bb
 import boto3
 import botocore
 
+def s3retry_wait(trynumber):
+    time.sleep(random.SystemRandom().random() * (trynumber * 5.0) + 5.0)
+
 class S3Session(object):
-    def __init__(self):
+    def __init__(self, maxtries=10):
         self.s3client = None
+        self.maxtries = maxtries
 
     def makeclient(self):
         session = botocore.session.get_session()
@@ -30,20 +34,20 @@ class S3Session(object):
             bb.debug(1, "increasing metadata service timeout to 10 seconds")
             session.set_config_variable('metadata_service_timeout', 10)
         retries = session.get_config_variable('metadata_service_num_attempts')
-        if retries < 10:
-            bb.debug(1, "increasing metadata service retries to 10")
-            session.set_config_variable('metadata_service_num_attempts', 10)
+        if retries < self.maxtries:
+            bb.debug(1, "increasing metadata service retries to %d" % self.maxtries)
+            session.set_config_variable('metadata_service_num_attempts', self.maxtries)
         session.get_component('credential_provider').get_provider('assume-role').cache = botocore.credentials.JSONFileCache()
         self.s3client = boto3.Session(botocore_session=session).client('s3')
 
     def upload(self, Filename, Bucket, Key):
         if self.s3client is None:
             self.makeclient()
-        for attempt in range(10):
+        for attempt in range(self.maxtries):
             try:
                 self.s3client.upload_file(Bucket=Bucket, Key=Key, Filename=Filename)
             except botocore.exceptions.NoCredentialsError:
-                time.sleep(random.SystemRandom().random() * 5.0)
+                s3tretry_wait(attempt)
                 continue
             except botocore.exceptions.ClientError as e:
                 err = e.repsonse['Error']
@@ -64,7 +68,7 @@ class S3Session(object):
                     mtime = int(time.mktime(info['LastModified'].timetuple()))
                     os.utime(Filename, (mtime, mtime))
             except botocore.exceptions.NoCredentialsError:
-                time.sleep(random.SystemRandom().random() * 5.0)
+                s3retry_wait(attempt)
                 continue
             except botocore.exceptions.ClientError as e:
                 err = e.response['Error']
@@ -89,7 +93,7 @@ class S3Session(object):
             try:
                 info = self.s3client.head_object(Bucket=Bucket, Key=Key)
             except botocore.exceptions.NoCredentialsError:
-                time.sleep(random.SystemRandom().random() * 5.0)
+                s3retry_wait(attempt)
                 continue
             except botocore.exceptions.ClientError as e:
                 err = e.response['Error']
