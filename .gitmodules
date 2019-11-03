@@ -1,16 +1,16 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
-	branch = master
+	branch = 1.44
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
-	branch = master
+	branch = zeus
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = master
+	branch = zeus
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
-	branch = master
+	branch = zeus
