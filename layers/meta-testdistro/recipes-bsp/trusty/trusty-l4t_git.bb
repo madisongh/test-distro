@@ -1,5 +1,5 @@
 SRC_REPO ?= "github.com/madisongh/trusty-l4t.git;protocol=https"
-SRCBRANCH ?= "patches-l4t-r${L4T_VERSION}"
+SRCBRANCH ?= "keystore-${L4T_VERSION}"
 SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
 SRCREV ?= "${AUTOREV}"
 S = "${WORKDIR}/git"
