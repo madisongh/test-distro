@@ -3,6 +3,7 @@ open_encrypted_partitions() {
     local luksname
     local UUID TYPE PARTLABEL PARTUUID vars
 
+    [ -n "$luksdev" ] || return 0
     rm -rf /run/passphrase
     touch /run/passphrase
     chmod 600 /run/passphrase
@@ -11,7 +12,6 @@ open_encrypted_partitions() {
 	rm -f /run/passphrase
 	exit 1
     fi
-    [ -n "$luksdev" ] || return 0
     echo -n "Unlocking partitions"
     blkid | grep 'PARTLABEL="crypt-' > /run/luks.list
     while IFS=: read luksdev vars; do

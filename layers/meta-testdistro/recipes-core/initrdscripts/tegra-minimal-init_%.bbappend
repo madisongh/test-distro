@@ -11,7 +11,7 @@ do_install_append_jetson-tx2-cboot() {
 }
 
 CRYPTFSDEPS = ""
-CRYPTFSDEPS_jetson-tx2-cboot = "cryptsetup trusty-l4t-tools watchdog-keepalive-bin"
+CRYPTFSDEPS_jetson-tx2-cboot = "cryptsetup trusty-l4t-tools watchdog-keepalive-bin tegra-boot-tools"
 RDEPENDS_${PN} += "${CRYPTFSDEPS} util-linux-blkid"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
