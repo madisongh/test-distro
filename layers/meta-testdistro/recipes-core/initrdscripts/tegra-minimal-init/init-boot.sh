@@ -1,5 +1,4 @@
 #!/bin/sh
-set -x
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 mount -t proc proc /proc
 mount -t devtmpfs none /dev
@@ -21,17 +20,6 @@ if [ -x /usr/sbin/wd_keepalive ]; then
 	count=`expr $count + 1`
     done
 fi
-
-find_partition_by_label() {
-    local label="$1"
-    local line=`blkid | grep LABEL=\"$label\"`
-    if [ -z "$line" ]; then
-	echo ""
-	return 1
-    fi
-    echo "$line" | cut -d: -f1
-    return 0
-}
 
 [ ! -f /etc/platform-preboot ] || . /etc/platform-preboot
 
