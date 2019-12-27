@@ -14,3 +14,11 @@
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
 	branch = zeus
+[submodule "repos/meta-mender"]
+	path = repos/meta-mender
+	url = https://github.com/madisongh/meta-mender
+	branch = zeus
+[submodule "repos/meta-mender-community"]
+	path = repos/meta-mender-community
+	url = https://github.com/madisongh/meta-mender-community
+	branch = zeus
