@@ -1,0 +1,31 @@
+From 278d3c6b5b5f78346120ed04669290af2bc5982c Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Fri, 27 Dec 2019 13:25:50 -0800
+Subject: [PATCH] enable coldplug with non-udev initrd
+
+---
+ udev/10-dm.rules.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/udev/10-dm.rules.in b/udev/10-dm.rules.in
+index b4fa52a..6372aa9 100644
+--- a/udev/10-dm.rules.in
++++ b/udev/10-dm.rules.in
+@@ -84,7 +84,7 @@ LABEL="dm_flags_done"
+ # script to not remove the existing udev database so we can reuse the information
+ # stored at the time of device activation in the initrd.
+ ACTION!="add", GOTO="dm_no_coldplug"
+-ENV{DM_UDEV_RULES_VSN}!="1", ENV{DM_UDEV_PRIMARY_SOURCE_FLAG}!="1", GOTO="dm_disable"
++#ENV{DM_UDEV_RULES_VSN}!="1", ENV{DM_UDEV_PRIMARY_SOURCE_FLAG}!="1", GOTO="dm_disable"
+ ENV{DM_ACTIVATION}="1"
+ LABEL="dm_no_coldplug"
+ 
+@@ -132,7 +132,7 @@ ENV{DM_SUSPENDED}=="Suspended", ENV{DM_SUSPENDED}="1"
+ # VSN 2 - add support for synthesized events
+ ENV{DM_UDEV_RULES_VSN}="2"
+ 
+-ENV{DM_UDEV_DISABLE_DM_RULES_FLAG}!="1", ENV{DM_NAME}=="?*", SYMLINK+="(DM_DIR)/$env{DM_NAME}"
++ENV{DM_UDEV_DISABLE_DM_RULES_FLAG}!="1", ENV{DM_NAME}=="?*", TEST!="/dev/(DM_DIR)/$env{DM_NAME}", SYMLINK+="(DM_DIR)/$env{DM_NAME}"
+ 
+ # Avoid processing and scanning a DM device in the other (foreign)
+ # rules if it is in suspended state. However, we still keep 'disk'
