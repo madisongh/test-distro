@@ -462,7 +462,7 @@
         <partition name="INSTALLER" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 134217728 </size>
+            <size> 536870912 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
 	    <filename> APPFILE </filename>
