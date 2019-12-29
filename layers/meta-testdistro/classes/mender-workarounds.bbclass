@@ -4,7 +4,7 @@ use_label_for_mender_datapart() {
         sed -i -e's,^${MENDER_DATA_PART},LABEL=DATA,' ${IMAGE_ROOTFS}${sysconfdir}/fstab
     fi
 }
-ROOTFS_POSTPROCESS_COMMAND_append = " use_label_for_mender_datapart;"
+ROOTFS_POSTPROCESS_COMMAND_append_jetson-tx2-cboot = " use_label_for_mender_datapart;"
 
 OS_RELEASE_VERSION = "${BUILDNAME}${@' (%s)' % DISTRO_CODENAME if 'DISTRO_CODENAME' in d else ''}"
 
