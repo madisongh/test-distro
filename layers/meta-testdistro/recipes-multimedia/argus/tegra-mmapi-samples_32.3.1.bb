@@ -21,7 +21,6 @@ PACKAGECONFIG[x11] = "-DWITH_X11=ON,,virtual/libx11 gtk+3"
 
 inherit cmake pkgconfig cuda
 
-S = "${WORKDIR}/tegra_multimedia_api"
 B = "${S}"
 
 OECMAKE_SOURCEPATH = "${S}/argus"
