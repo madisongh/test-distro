@@ -1,7 +1,7 @@
-Index: tegra_multimedia_api/samples/Rules.mk
+Index: jetson_multimedia_api/samples/Rules.mk
 ===================================================================
---- tegra_multimedia_api.orig/samples/Rules.mk
-+++ tegra_multimedia_api/samples/Rules.mk
+--- jetson_multimedia_api.orig/samples/Rules.mk
++++ jetson_multimedia_api/samples/Rules.mk
 @@ -28,10 +28,6 @@
  #
  ###############################################################################
@@ -25,7 +25,7 @@ Index: tegra_multimedia_api/samples/Rules.mk
  # Location of the target rootfs
  ifeq ($(shell uname -m), aarch64)
  TARGET_ROOTFS :=
-@@ -62,48 +53,16 @@ CLASS_DIR 	:= $(TOP_DIR)/samples/common/
+@@ -62,49 +53,16 @@ CLASS_DIR 	:= $(TOP_DIR)/samples/common/
  ALGO_CUDA_DIR 	:= $(TOP_DIR)/samples/common/algorithm/cuda
  ALGO_TRT_DIR 	:= $(TOP_DIR)/samples/common/algorithm/trt
  
@@ -63,7 +63,8 @@ Index: tegra_multimedia_api/samples/Rules.mk
 -	-I"$(ALGO_TRT_DIR)" \
 -	-I"$(TARGET_ROOTFS)/$(CUDA_PATH)/include" \
 -	-I"$(TARGET_ROOTFS)/usr/include/$(TEGRA_ARMABI)" \
--	-I"$(TARGET_ROOTFS)/usr/include/libdrm"
+-	-I"$(TARGET_ROOTFS)/usr/include/libdrm" \
+-	-I"$(TARGET_ROOTFS)/usr/include/opencv4"
 +	-I"$(ALGO_TRT_DIR)"
  
  # All common dependent libraries
@@ -76,10 +77,10 @@ Index: tegra_multimedia_api/samples/Rules.mk
 -	-L"$(TARGET_ROOTFS)/usr/lib/$(TEGRA_ARMABI)" \
 -	-L"$(TARGET_ROOTFS)/usr/lib/$(TEGRA_ARMABI)/tegra"
 +	-lnvinfer -lnvparsers
-Index: tegra_multimedia_api/samples/v4l2cuda/Makefile
+Index: jetson_multimedia_api/samples/v4l2cuda/Makefile
 ===================================================================
---- tegra_multimedia_api.orig/samples/v4l2cuda/Makefile
-+++ tegra_multimedia_api/samples/v4l2cuda/Makefile
+--- jetson_multimedia_api.orig/samples/v4l2cuda/Makefile
++++ jetson_multimedia_api/samples/v4l2cuda/Makefile
 @@ -26,14 +26,8 @@ SRCS := \
  	capture.cpp \
  	yuv2rgb.cu
@@ -106,10 +107,10 @@ Index: tegra_multimedia_api/samples/v4l2cuda/Makefile
  
  clean:
  	$(AT) rm -f *.o $(APP)
-Index: tegra_multimedia_api/samples/common/algorithm/cuda/Makefile
+Index: jetson_multimedia_api/samples/common/algorithm/cuda/Makefile
 ===================================================================
---- tegra_multimedia_api.orig/samples/common/algorithm/cuda/Makefile
-+++ tegra_multimedia_api/samples/common/algorithm/cuda/Makefile
+--- jetson_multimedia_api.orig/samples/common/algorithm/cuda/Makefile
++++ jetson_multimedia_api/samples/common/algorithm/cuda/Makefile
 @@ -43,13 +43,6 @@ endif
  ALL_CPPFLAGS := $(NVCCFLAGS)
  ALL_CPPFLAGS += $(addprefix -Xcompiler ,$(filter-out -std=c++11, $(CPPFLAGS)))
