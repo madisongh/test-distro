@@ -1,12 +1,12 @@
 SRC_REPO ?= "github.com/madisongh/trusty-l4t.git;protocol=https"
-SRCBRANCH ?= "keystore-${L4T_VERSION}"
+SRCBRANCH ?= "keystore-32.2.3"
 SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
 SRCREV ?= "${AUTOREV}"
 S = "${WORKDIR}/git"
 
 inherit l4t_bsp
 
-PV = "${L4T_VERSION}+git${SRCPV}"
+PV = "32.2.3+git${SRCPV}"
 
 require recipes-bsp/trusty/trusty-l4t.inc
 
