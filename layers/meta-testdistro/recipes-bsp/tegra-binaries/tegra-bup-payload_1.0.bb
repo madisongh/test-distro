@@ -14,5 +14,5 @@ do_install() {
 
 do_install[depends] += "${@'tegra-minimal-initramfs:do_image_complete' if d.getVar('PREFERRED_PROVIDER_virtual/bootloader').startswith('cboot') else 'u-boot-bup-payload:do_deploy'}"
 FILES_${PN} = "/opt/ota_package/bl_update_payload"
-RDEPENDS_${PN} += "tegra186-redundant-boot"
+RDEPENDS_${PN} += "tegra-redundant-boot"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
