@@ -46,7 +46,7 @@ class S3Session(object):
         for attempt in range(self.maxtries):
             try:
                 self.s3client.upload_file(Bucket=Bucket, Key=Key, Filename=Filename)
-            except botocore.exceptions.NoCredentialsError:
+            except (botocore.exceptions.NoCredentialsError, botocore.exceptions.EndpointConnectionError):
                 s3tretry_wait(attempt)
                 continue
             except botocore.exceptions.ClientError as e:
