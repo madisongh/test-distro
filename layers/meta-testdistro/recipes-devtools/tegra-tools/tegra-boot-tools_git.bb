@@ -21,11 +21,8 @@ PACKAGES =+ "${PN}-installer"
 
 SYSTEMD_SERVICE_${PN} = "finished-booting.target update_bootinfo.service"
 
-TX2AGXDEP = ""
-TX2AGXDEP_tegra186 = "trusty-l4t-tools tegra186-redundant-boot"
-TX2AGXDEP_tegra194 = "trusty-l4t-tools tegra186-redundant-boot"
 FILES_${PN}-installer = "${sbindir}/tegra-sysinstall* ${datadir}/tegra-boot-tools"
-RDEPENDS_${PN}-installer = "${PN} tar cryptsetup ${TX2AGXDEP} \
+RDEPENDS_${PN}-installer = "${PN} tar cryptsetup trusty-l4t-tools tegra-redundant-boot \
                             bash curl util-linux-blkid util-linux-lsblk util-linux-mountpoint \
                             parted gptfdisk e2fsprogs util-linux-mkfs util-linux-mount \
                             util-linux-umount tegra-fuse-tool"
