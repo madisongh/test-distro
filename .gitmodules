@@ -9,7 +9,7 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = wip-zeus-l4t-r32.3.1
+	branch = zeus-l4t-r32.3.1
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
