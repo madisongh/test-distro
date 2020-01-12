@@ -23,8 +23,6 @@ if [ -f /etc/init-luks ]; then
     open_encrypted_partitions
 fi
 
-keystoretool --bootdone
-
 slotsfx=""
 mayberoot=""
 for bootarg in `cat /proc/cmdline`; do
