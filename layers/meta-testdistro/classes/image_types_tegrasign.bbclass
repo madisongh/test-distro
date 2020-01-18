@@ -1,0 +1,1 @@
+inherit image_types_tegra tegrasign
