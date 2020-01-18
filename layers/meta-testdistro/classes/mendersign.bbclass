@@ -5,15 +5,16 @@ inherit signing_server
 mendersign() {
     if echo "${DIGSIG_SERVER}" | grep -q "127\.0\.0\.1"; then
         uri="file://${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.mender"
-	copyback=
+        copyback=
     else
         uri="${DIGSIG_TEMPSTORE_URI}/${DISTRO}/`uuidgen`"
         aws s3 cp ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.mender $uri
-	copyback="yes"
+        copyback="yes"
     fi
     digsig_post sign/mender -F "distro=${DISTRO}" -F "artifact-uri=$uri"
     if [ -n "$copyback" ]; then
         aws s3 cp "$uri" ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.mender
+        aws s3 rm "$uri"
     fi
 }
 
