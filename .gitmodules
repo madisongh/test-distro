@@ -9,7 +9,7 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = master
+	branch = wip-multi-spec-bup
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
