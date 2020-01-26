@@ -1,4 +1,4 @@
-EXTRA_APPS = "gstreamer-tests rng-tools mesa-demos tegra-tools-tegrastats"
+EXTRA_APPS = "gstreamer-tests haveged mesa-demos tegra-tools-tegrastats l4t-graphics-demos-egldevice l4t-graphics-demos-x11"
 EXTRA_DRIVERS = ""
 EXTRA_APPS_append_tegra186 = " vulkan-demos vulkan-tools tegra-mmapi-samples cuda-samples gpu-burn"
 EXTRA_DRIVERS_tegra186 = "kernel-modules"
