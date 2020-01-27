@@ -2,6 +2,8 @@ platform_unseal_passphrase() {
     keystoretool --dmc-passphrase > "$1" 2>&1
 }
 
+[ ! -x /usr/bin/setup-nv-boot-control ] || /usr/bin/setup-nv-boot-control
+
 if [ -x /usr/sbin/nvbootctrl -a -x /usr/sbin/tegra-bootinfo ]; then
     curslot=`/usr/sbin/nvbootctrl get-current-slot`
     /usr/sbin/nvbootctrl mark-boot-successful
