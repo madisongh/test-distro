@@ -11,6 +11,7 @@ inherit core-image
 IMAGE_FSTYPES_forcevariable = "tegraflash"
 IMAGE_ROOTFS_SIZE = "131072"
 KERNEL_ARGS_append = " root=PARTLABEL=INSTALLER"
+KERNEL_ARGS_remove = "console=tty0"
 ROOTFS_POSTPROCESS_COMMAND_prepend = "ensure_data_exists;"
 ROOTFS_POSTPROCESS_COMMAND_remove = "mender_update_fstab_file;"
 ROOTFS_POSTPROCESS_COMMAND_remove = "mender_create_scripts_version_file;"
