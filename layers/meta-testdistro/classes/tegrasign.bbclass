@@ -24,6 +24,7 @@ tegraflash_custom_sign_pkg_jetson-tx2-cboot() {
     tar -c -h -z -f ${WORKDIR}/tegrasign-in.tar.gz --exclude=${IMAGE_BASENAME}.img *
     digsig_post sign/tegra -F "machine=${MACHINE}" -F "soctype=${SOC_FAMILY}" -F "bspversion=${L4T_VERSION}" -F "artifact=@${WORKDIR}/tegrasign-in.tar.gz" --output ${WORKDIR}/tegrasign-out.tar.gz
     tar -x -z -f ${WORKDIR}/tegrasign-out.tar.gz
+    [ "${TEGRA_SIGNING_EXCLUDE_TOOLS}" != "1" ] || cp -R ${STAGING_BINDIR_NATIVE}/${FLASHTOOLS_DIR}/* .
     rm doflash.sh
     mv flashcmd.txt doflash.sh
     chmod +x doflash.sh
@@ -31,7 +32,7 @@ tegraflash_custom_sign_pkg_jetson-tx2-cboot() {
 
 tegraflash_custom_sign_bup_jetson-tx2-cboot() {
     tegrasign_create_manifest
-    echo "BUPGEN=1" >>MANIFEST
+    echo "BUPGENSPECS=${TEGRA_BUPGEN_SPECS}" >>MANIFEST
     tar -c -h -z -f ${WORKDIR}/tegrasign-bupgen-in.tar.gz *
     digsig_post sign/tegra -F "machine=${MACHINE}" -F "soctype=${SOC_FAMILY}" -F "bspversion=${L4T_VERSION}" -F "artifact=@${WORKDIR}/tegrasign-bupgen-in.tar.gz" --output ${WORKDIR}/tegrasign-bupgen-out.tar.gz
     tar -x -z -f ${WORKDIR}/tegrasign-bupgen-out.tar.gz
