@@ -1,7 +1,7 @@
 DESCRIPTION = "Installer tegraflash package"
 LICENSE = "MIT"
 
-IMAGE_INSTALL = "packagegroup-core-boot tegra-boot-tools-installer haveged"
+IMAGE_INSTALL = "packagegroup-core-boot tegra-sysinstall-tools haveged"
 IMAGE_INSTALL_remove = "mender"
 IMAGE_FEATURES = "empty-root-password allow-empty-password"
 IMAGE_LINUGAS = ""
