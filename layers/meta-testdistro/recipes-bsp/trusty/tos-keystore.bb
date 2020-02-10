@@ -5,7 +5,7 @@ COMPATIBLE_MACHINE = "(tegra186|tegra194)"
 
 DEPENDS = "tegra186-flashtools-native openssl-native arm-trusted-firmware keystore"
 
-inherit l4t_bsp deploy nopackages pythonnative
+inherit l4t_bsp deploy nopackages python3native
 
 PV = "${L4T_VERSION}"
 
