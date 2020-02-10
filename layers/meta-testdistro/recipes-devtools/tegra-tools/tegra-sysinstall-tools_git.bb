@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
 
 inherit autotools
 
-FILES_${PN} += "${datadir}/tegra-boot-tools"
+FILES_${PN} += "${datadir}/tegra-sysinstall"
 RDEPENDS_${PN} = "tegra-boot-tools tar cryptsetup keystore-tools tegra-redundant-boot \
                   bash curl util-linux-blkid util-linux-lsblk util-linux-mountpoint \
                   parted gptfdisk e2fsprogs util-linux-mkfs util-linux-mount \
