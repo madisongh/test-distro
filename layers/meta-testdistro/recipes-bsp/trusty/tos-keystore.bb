@@ -20,7 +20,7 @@ TOS_SYMLINK ?= "tos-${MACHINE}.img"
 S = "${WORKDIR}/${BP}"
 
 do_compile() {
-    python ${STAGING_BINDIR_NATIVE}/tegra186-flash/gen_tos_part_img.py \
+    python3 ${STAGING_BINDIR_NATIVE}/tegra186-flash/gen_tos_part_img.py \
         --monitor ${STAGING_DATADIR}/trusted-os/bl31.bin \
         --os ${STAGING_DATADIR}/trusted-os/lk.bin \
         ${TOSIMG}
