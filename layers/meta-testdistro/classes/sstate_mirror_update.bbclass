@@ -5,12 +5,11 @@ python sstate_mirror_update() {
     import os, shutil
     if d.getVar('SSTATE_SKIP_CREATION') == '1':
         return
-    ss = sstate_state_fromvars(d)
     mirrordir = d.getVar("SSTATE_MIRRORDIR")
     if mirrordir.startswith("file://"):
         mirrordir = mirrordir[7:] # skipping over the file:// prefix, checked for below
         sstatepkg = d.getVar("SSTATE_PKG")
-        mirrorpkg = os.path.join(mirrordir, d.getVar("SSTATE_PKGNAME") + '_' + ss['task'] + ".tgz")
+        mirrorpkg = os.path.join(mirrordir, d.getVar("SSTATE_PKGNAME"))
         bb.utils.mkdirhier(os.path.dirname(mirrorpkg))
         lf = bb.utils.lockfile("%s.lock" % mirrorpkg)
         try:
@@ -24,7 +23,7 @@ python sstate_mirror_update() {
         from oeaws import s3session
         # skip over the s3:// prefix
         mirrorpath = mirrordir[5:].split('/')
-        mirrorpath.append(d.getVar("SSTATE_PKGNAME") + '_' + ss['task'] + ".tgz")
+        mirrorpath.append(d.getVar("SSTATE_PKGNAME"))
         sstatepkg = d.getVar("SSTATE_PKG")
         destobj = '/'.join(mirrorpath[1:])
         s3 = s3session.S3Session()
