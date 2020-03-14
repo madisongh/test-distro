@@ -14,3 +14,7 @@
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
 	branch = zeus
+[submodule "repos/meta-virtualization"]
+	path = repos/meta-virtualization
+	url = git://git.yoctoproject.org/meta-virtualization
+	branch = zeus
