@@ -10,9 +10,7 @@ BBLAYERS ?= " \
   ##OEROOT##/meta-tegra \
   ##OEROOT##/meta-tegra/contrib \
   ##OEROOT##/meta-oe \
-  ##OEROOT##/meta-filesystems \
   ##OEROOT##/meta-networking \
-  ##OEROOT##/meta-python \
   ##OEROOT##/meta-virtualization \
   ##OEROOT##/meta-testdistro \
   "
