@@ -2,9 +2,9 @@ EXTRA_APPS = "gstreamer-tests haveged mesa-demos tegra-tools-tegrastats l4t-grap
 EXTRA_DRIVERS = ""
 EXTRA_APPS_append_tegra186 = " vulkan-demos vulkan-tools tegra-mmapi-samples cuda-samples gpu-burn"
 EXTRA_DRIVERS_tegra186 = "kernel-modules"
-EXTRA_APPS_append_tegra194 = " vulkan-demos vulkan-tools cuda-samples gpu-burn"
-EXTRA_DRIVERS_tegra194 = "kernel-modules"
+EXTRA_APPS_append_tegra194 = " vulkan-demos vulkan-tools cuda-samples gpu-burn tensorrt"
+EXTRA_DRIVERS_tegra194 = "kernel-module-hid-logitech-hidpp kernel-module-hid-logitech-dj kernel-module-uvcvideo"
 EXTRA_APPS_append_tegra210 = " vulkan-demos vulkan-tools tegra-mmapi-samples cuda-samples gpu-burn"
-EXTRA_DRIVERS_tegra210 = "kernel-module-hid-logitech-hidpp kernel-module-hid-logitech-dj"
+EXTRA_DRIVERS_tegra210 = "kernel-module-hid-logitech-hidpp kernel-module-hid-logitech-dj kernel-module-uvcvideo"
 RDEPENDS_${PN}-apps += "${EXTRA_APPS} ${EXTRA_DRIVERS}"
 
