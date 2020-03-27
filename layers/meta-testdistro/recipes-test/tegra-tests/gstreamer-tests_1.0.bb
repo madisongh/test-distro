@@ -31,6 +31,7 @@ do_install() {
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-EXTRA_RDEPENDS = " gstreamer1.0-plugins-nvvideo4linux2 gstreamer1.0-plugins-good-video4linux2"
-EXTRA_RDEPENDS_tegra124 = ""
-RDEPENDS_${PN} = "gst-player gstreamer1.0 v4l-utils ${EXTRA_RDEPENDS}"
+RDEPENDS_${PN} = "gst-player gstreamer1.0 gstreamer1.0-plugins-nveglgles gstreamer1.0-plugins-base-videotestsrc \
+                  gstreamer1.0-plugins-nvvideo4linux2 gstreamer1.0-plugins-nvvideosinks \
+                  gstreamer1.0-plugins-tegra gstreamer1.0-plugins-good-imagefreeze gstreamer1.0-plugins-bad-waylandsink \
+                  gstreamer1.0-plugins-good-video4linux2"
