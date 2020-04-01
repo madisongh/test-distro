@@ -9,8 +9,12 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = warrior-l4t-r32.2
+	branch = wip-cbw-l4t-r32.2
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
+	branch = warrior
+[submodule "repos/meta-virtualization"]
+	path = repos/meta-virtualization
+	url = git://git.yoctoproject.org/meta-virtualization
 	branch = warrior
