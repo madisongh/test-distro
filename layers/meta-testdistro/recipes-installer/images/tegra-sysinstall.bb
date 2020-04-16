@@ -1,6 +1,8 @@
 DESCRIPTION = "Installer tegraflash package"
 LICENSE = "MIT"
 
+COMPATIBLE_MACHINE = "(tegra)"
+
 IMAGE_INSTALL = "packagegroup-core-boot tegra-sysinstall-tools haveged"
 IMAGE_FEATURES = "empty-root-password allow-empty-password"
 IMAGE_LINUGAS = ""
