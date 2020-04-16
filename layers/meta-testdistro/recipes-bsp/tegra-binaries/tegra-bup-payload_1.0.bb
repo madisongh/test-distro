@@ -2,6 +2,8 @@ DESCRIPTION = "Install tegra bup payload file in the location expected by nv_upd
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
+COMPATIBLE_MACHINE = "(tegra)"
+
 UBOOT_SUFFIX ??= "bin"
 UBOOT_IMAGE ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
 
