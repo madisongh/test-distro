@@ -1,20 +1,20 @@
 [submodule "bitbake"]
 	path = repos/bitbake
 	url = https://github.com/madisongh/bitbake
-	branch = master
+	branch = 1.46
 [submodule "oe-core"]
 	path = repos/openembedded-core
 	url = https://github.com/madisongh/openembedded-core
-	branch = master
+	branch = dunfell
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = master
+	branch = dunfell
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
-	branch = master
+	branch = dunfell
 [submodule "repos/meta-virtualization"]
 	path = repos/meta-virtualization
 	url = git://git.yoctoproject.org/meta-virtualization
-	branch = master
+	branch = dunfell
