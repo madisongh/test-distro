@@ -9,11 +9,11 @@ S = "${WORKDIR}/git"
 
 inherit l4t_bsp
 
-PV = "32.2.3+git${SRCPV}"
+PV = "32.4.2+git${SRCPV}"
 
 require recipes-bsp/trusty/trusty-l4t.inc
 
 LIC_FILES_CHKSUM_remove = " \
-    file://app/keystore-demo/LICENSE;md5=7100b53ab2e3231bd0ba50d55a53fbef \
+    file://app/sample/hwkey-agent/LICENSE;md5=0f2184456a07e1ba42a53d9220768479 \
     file://app/sample/LICENSE;md5=86d3f3a95c324c9479bd8986968f4327 \
 "
