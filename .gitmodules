@@ -17,8 +17,8 @@
 [submodule "repos/meta-mender"]
 	path = repos/meta-mender
 	url = https://github.com/madisongh/meta-mender
-	branch = zeus
+	branch = patches-zeus-next
 [submodule "repos/meta-mender-community"]
 	path = repos/meta-mender-community
 	url = https://github.com/madisongh/meta-mender-community
-	branch = zeus-l4t-r32.3.1
+	branch = patches-zeus-test
