@@ -22,7 +22,7 @@ EOF
 
 tegraflash_custom_sign_pkg_secureboot() {
     tegrasign_create_manifest ${LNXFILE}
-    tar -c -h -z -f ${WORKDIR}/tegrasign-in.tar.gz --exclude=${IMAGE_BASENAME}.img --exclude=${IMAGE_BASENAME}.ext4 *
+    tar -c -h -z -f ${WORKDIR}/tegrasign-in.tar.gz --exclude=${IMAGE_BASENAME}.img --exclude=${IMAGE_BASENAME}.ext4 --warning=no-file-changed *
     digsig_post sign/tegra -F "machine=${MACHINE}" -F "soctype=${SOC_FAMILY}" -F "bspversion=${L4T_VERSION}" -F "artifact=@${WORKDIR}/tegrasign-in.tar.gz" --output ${WORKDIR}/tegrasign-out.tar.gz
     tar -x -z -f ${WORKDIR}/tegrasign-out.tar.gz
     [ "${TEGRA_SIGNING_EXCLUDE_TOOLS}" != "1" ] || cp -R ${STAGING_BINDIR_NATIVE}/${FLASHTOOLS_DIR}/* .
@@ -34,7 +34,7 @@ tegraflash_custom_sign_pkg_secureboot() {
 tegraflash_custom_sign_bup_secureboot() {
     tegrasign_create_manifest boot.img
     echo "BUPGENSPECS=${TEGRA_BUPGEN_SPECS}" >>MANIFEST
-    tar -c -h -z -f ${WORKDIR}/tegrasign-bupgen-in.tar.gz *
+    tar -c -h -z -f ${WORKDIR}/tegrasign-bupgen-in.tar.gz --warning=no-file-changed *
     digsig_post sign/tegra -F "machine=${MACHINE}" -F "soctype=${SOC_FAMILY}" -F "bspversion=${L4T_VERSION}" -F "artifact=@${WORKDIR}/tegrasign-bupgen-in.tar.gz" --output ${WORKDIR}/tegrasign-bupgen-out.tar.gz
     tar -x -z -f ${WORKDIR}/tegrasign-bupgen-out.tar.gz
 }
