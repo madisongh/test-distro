@@ -16,16 +16,41 @@ Copyright (c) 2019, Matthew Madison <matt@madison.systems>
 import os
 import bb
 
+awsvars = [ 'AWS_CONFIG_FILE',
+            'AWS_PROFILE',
+            'AWS_ACCESS_KEY_ID',
+            'AWS_SECRET_ACCESS_KEY',
+            'AWS_SHARED_CREDENTIALS_FILE',
+            'AWS_SESSION_TOKEN',
+            'AWS_DEFAULT_REGION',
+            'AWS_METADATA_SERVICE_NUM_ATTEMPTS',
+            'AWS_METADATA_SERVICE_TIMEOUT']
+
 class S3(bb.fetch2.s3.S3):
 
     def __init__(self, urls=None):
         super().__init__(urls)
         self.session = oeaws.s3session.S3Session()
 
+    def fix_env(self, d):
+        origenv = d.getVar('BB_ORIGENV', False)
+        for v in awsvars:
+            val = os.getenv(v)
+            if val:
+                bb.debug(2, "Have %s=%s in env" % (v, val))
+                continue
+            val = origenv and origenv.getVar(v)
+            if val:
+                os.environ[v] = val
+                bb.debug(2, 'Set %s=%s in env' % (v, val))
+            bb.debug(2, 'No setting for %s' % v)
+
     def checkstatus(self, fetch, ud, d):
+        self.fix_env(d)
         return self.session.get_object_info(ud.host, ud.path[1:]) is not None
 
     def download(self, ud, d):
+        self.fix_env(d)
         if not self.session.download(ud.host, ud.path[1:], ud.localpath):
             raise bb.fetch2.FetchError("could not download s3://%s%s" % (ud.host, ud.path))
         return True
