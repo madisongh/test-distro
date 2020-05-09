@@ -3,7 +3,7 @@ if [ -z "$ZSH_NAME"] && [ "x$0" = "x./setup-env" ]; then
     echo "Error: This script needs to be sourced."
     exit 1
 fi
-error_occurred=""
+
 if [ -n "$BASH_SOURCE" ]; then
     OEROOT="`dirname $BASH_SOURCE`"
 elif [ -n "$ZSH_SOURCE"]; then
@@ -23,7 +23,7 @@ if [ -e "$BDIR" ]; then
     BDIR=`readlink -f "$BDIR"`
     if [ ! -d "$BDIR" ]; then
 	echo "Usage: setup-env [dirname]"
-	error_occurred="yes"
+	return 1
     fi
 else
     mkdir -p "$BDIR"
@@ -31,20 +31,26 @@ else
 fi
 # Allow for multiple layer sets,
 # default just "layers"
-if [ -z "$error_occurred" ]; then
-    if [ "x$BMETA" = "x" ]; then
-	BMETA="layers"
-    fi
-    OEROOT=`readlink -f "$OEROOT/$BMETA"`
-    export OEROOT
-    . $OEROOT/scripts/oe-buildenv-internal && \
-	$OEROOT/scripts/oe-setup-builddir && \
-	[ -n "$BUILDDIR" ] && cd $BUILDDIR
-    TEMPLATECONF=`cat $BUILDDIR/conf/templateconf.cfg`
-    if [ ! -f "$BUILDDIR/conf/site.conf" -a \
-	-f "$OEROOT/$TEMPLATECONF/site.conf.sample" ]; then
-	cp $OEROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
-    fi
-    unset OEROOT BBPATH TEMPLATECONF
+if [ "x$BMETA" = "x" ]; then
+    BMETA="layers"
 fi
-unset error_occurred
+OEROOT=`readlink -f "$OEROOT/$BMETA"`
+export OEROOT
+export BITBAKEDIR="$OEROOT/bitbake"
+. $OEROOT/scripts/oe-buildenv-internal && \
+    $OEROOT/scripts/oe-setup-builddir && \
+    [ -n "$BUILDDIR" ] && cd $BUILDDIR
+TEMPLATECONF=`cat $BUILDDIR/conf/templateconf.cfg`
+if [ ! -f "$BUILDDIR/conf/site.conf" -a \
+       -f "$OEROOT/$TEMPLATECONF/site.conf.sample" ]; then
+    cp $OEROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
+fi
+if [ -d "$OEROOT/meta-testdistro/scripts" ]; then
+    PATH="$OEROOT/meta-testdistro/scripts:$PATH"
+    [ ! -e "$OEROOT/meta-testdistro/scripts/buildenv-host-gcc-check" ] || . "$OEROOT/meta-testdistro/scripts/buildenv-host-gcc-check"
+fi
+BB_ENV_EXTRAWHITE="GNUPGHOME DBUS_SESSION_BUS_ADDRESS AWS_CONFIG_FILE AWS_PROFILE AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SHARED_CREDENTIALS_FILE AWS_SESSION_TOKEN AWS_DEFAULT_REGION $BB_ENV_EXTRAWHITE"
+unset OEROOT BBPATH TEMPLATECONF BITBAKEDIR
+if [ "`umask | tail -c 2`" = "7" ]; then
+    umask 0022
+fi
