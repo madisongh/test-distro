@@ -4,13 +4,13 @@ SRC_URI_append_jetson-tx2-cboot = " file://0001-Drop-security-engine-RSA-priorit
 SRC_URI_append_jetson-tx2-cboot = " file://test-signing-key.pem"
 SRC_URI_append_jetson-tx2-cboot = " file://module-signing.cfg file://dm-crypt.cfg"
 
-DEPENDS += "openssl-native kern-tools-native"
+DEPENDS += "openssl-native"
 
 do_configure() {
     touch ${B}/.scmversion ${S}/.scmversion
     configs="${WORKDIR}/defconfig $(ls -1 ${WORKDIR}/*.cfg)"
     cd ${S}
-    CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${configs} 2>&1
+    CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} ${S}/scripts/kconfig/merge_config.sh -O ${B} ${configs} 2>&1
     if [ $? -ne 0 -o ! -f ${B}/.config ]; then
         bbfatal "merge_config.sh failed"
     fi
