@@ -8,8 +8,8 @@ DEPENDS = "zlib"
 SRC_REPO ?= "github.com/madisongh/tegra-sysinstall.git;protocol=https"
 SRCBRANCH ?= "master"
 SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
-SRCREV = "${AUTOREV}"
-PV = "1.0+git${SRCPV}"
+SRCREV = "8e359158a464e3c3c87d347305ed0db318eaf405"
+PV = "1.3+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
@@ -19,4 +19,4 @@ FILES_${PN} += "${datadir}/tegra-sysinstall"
 RDEPENDS_${PN} = "tegra-boot-tools tar cryptsetup keystore-tools tegra-redundant-boot \
                   bash curl util-linux-blkid util-linux-lsblk util-linux-mountpoint \
                   parted gptfdisk e2fsprogs util-linux-mkfs util-linux-mount \
-                  util-linux-umount tegra-fuse-tool"
+                  util-linux-umount tegra-fuse-tool tegra-eeprom-tool-boardspec"
