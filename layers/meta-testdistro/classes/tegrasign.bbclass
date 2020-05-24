@@ -8,11 +8,12 @@ tegrasign_create_manifest() {
     cat >MANIFEST <<EOF
 DTBFILE=${DTBFILE}
 ODMDATA=${ODMDATA}
-LNXFILE=${LNXFILE}
+LNXFILE=$1
 BOARDID=${TEGRA_BOARDID}
 FAB=${TEGRA_FAB}
 fuselevel=fuselevel_production
 localbootfile=${LNXFILE}
+boardcfg=$boardcfg
 CHIPREV=${TEGRA_CHIPREV}
 BOARDSKU=${TEGRA_BOARDSKU}
 BOARDREV=${TEGRA_BOARDREV}
@@ -28,6 +29,8 @@ tegraflash_custom_sign_pkg_jetson-tx2-cboot() {
     rm doflash.sh
     mv flashcmd.txt doflash.sh
     chmod +x doflash.sh
+    rm -f secureflash.sh
+    tegraflash_post_sign_pkg
 }
 
 tegraflash_custom_sign_bup_jetson-tx2-cboot() {
