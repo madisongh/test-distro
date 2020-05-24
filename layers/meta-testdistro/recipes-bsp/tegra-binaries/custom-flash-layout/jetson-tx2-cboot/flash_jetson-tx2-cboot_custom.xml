@@ -495,7 +495,7 @@
         <partition name="DATA" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 4294967296 </size>
+            <size> 2147483648 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
 	    <filename> DATAFILE </filename>
@@ -504,7 +504,7 @@
         <partition name="INSTALLER" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
-            <size> 536870912 </size>
+            <size> 2147483648 </size>
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
 	    <filename> APPFILE </filename>
