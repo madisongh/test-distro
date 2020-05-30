@@ -1,0 +1,12 @@
+[Unit]
+Description="dm-crypt cleanup"
+DefaultDependencies=no
+After=cryptsetup.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/rm -f /run/crypt/passphrase
+
+[Install]
+WantedBy=sysinit.target
