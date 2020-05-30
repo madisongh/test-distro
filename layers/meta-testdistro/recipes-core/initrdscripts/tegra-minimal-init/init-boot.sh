@@ -3,6 +3,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 mount -t proc proc /proc
 mount -t devtmpfs none /dev
 mount -t sysfs sysfs /sys
+mount -t tmpfs -omode=0755,nodev,nosuid,strictatime tmpfs /run
 
 rootdev=""
 opt="rw"
@@ -51,6 +52,7 @@ echo "Switching to rootfs on ${rootdev}..."
 mount --move /sys  /mnt/sys
 mount --move /proc /mnt/proc
 mount --move /dev  /mnt/dev
+mount --move /run  /mnt/run
 
 if [ -n "$WDTPID" ] && kill -0 "$WDTPID" 2>/dev/null ; then
     kill "$WDTPID"

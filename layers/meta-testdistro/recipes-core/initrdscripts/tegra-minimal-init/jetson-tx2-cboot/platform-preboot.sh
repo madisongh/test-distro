@@ -1,5 +1,5 @@
 platform_unseal_passphrase() {
-    keystoretool --dmc-passphrase > "$1" 2>&1
+    keystoretool --dmc-passphrase > "$1" 2>/dev/null
 }
 
 [ ! -x /usr/bin/setup-nv-boot-control ] || /usr/bin/setup-nv-boot-control
@@ -12,7 +12,7 @@ if [ -x /usr/sbin/nvbootctrl -a -x /usr/sbin/tegra-bootinfo ]; then
         slot=`expr 1 - $curslot`
         echo "Switching to boot slot $curslot"
         /usr/sbin/nvbootctrl set-active-boot-slot $slot
-        /usr/sbin/reboot -f
+        /sbin/reboot -f
     fi
 fi
 
@@ -20,9 +20,12 @@ while [ ! -b /dev/mmcblk0p1 ]; do
     sleep 1
 done
 
+decryptrootfs=
 if [ -f /etc/init-luks ]; then
     . /etc/init-luks
-    open_encrypted_partitions
+    if unseal_passphrase; then
+	decryptrootfs=yes
+    fi
 fi
 
 slotsfx=""
@@ -38,18 +41,22 @@ done
 
 if [ -n "$mayberoot" ]; then
     if echo "$mayberoot" | grep -q '=' ; then
-	rootdev=`blkid -l -t $mayberoot | cut -d: -f1`
+	rootdev=`blkid -l -o device -t $mayberoot`
     else
 	rootdev="$mayberoot"
     fi
-else
-    if [ -b /dev/mapper/APP$slotsfx ]; then
+elif [ -n "$decryptrootfs" ]; then
+    if open_encrypted_partition APP$slotsfx && [ -b /dev/mapper/APP$slotsfx ]; then
 	rootdev="/dev/mapper/APP$slotsfx"
     else
 	rootdev=`blkid --label APP$slotsfx`
-	[ -n "$rootdev" ] || rootdev=`blkid -l -t PARTLABEL=APP$slotsfx | cut -d: -f1`
+	[ -n "$rootdev" ] || rootdev=`blkid -l -o device -t PARTLABEL=APP$slotsfx`
     fi
+else
+    rootdev=`blkid --label APP$slotsfx`
+    [ -n "$rootdev" ] || rootdev=`blkid -l -o device -t PARTLABEL=APP$slotsfx`
 fi
+
 if [ -z "$rootdev" ]; then
     rootdev="/dev/mmcblk0p1"
 fi
