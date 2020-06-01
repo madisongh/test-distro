@@ -15,7 +15,7 @@ DEPENDS = "openssl"
 
 inherit l4t_bsp autotools pkgconfig
 
-PV = "32.2.3+git${SRCPV}"
+PV = "32.4.2+git${SRCPV}"
 
 S = "${WORKDIR}/git/tools"
 B = "${WORKDIR}/build"
