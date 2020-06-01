@@ -2,6 +2,7 @@
 Description="dm-crypt cleanup"
 DefaultDependencies=no
 After=cryptsetup.target
+ConditionPathExists=!/etc/initrd-release
 
 [Service]
 Type=oneshot
