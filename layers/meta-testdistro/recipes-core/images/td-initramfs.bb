@@ -28,6 +28,8 @@ IMAGE_ROOTFS_EXTRA_SPACE = "0"
 
 FORCE_RO_REMOVE ?= "1"
 
+SYSTEMD_DEFAULT_TARGET = "initrd.target"
+
 inherit core-image
 
 IMAGE_FSTYPES_forcevariable = "${INITRAMFS_FSTYPES}"
