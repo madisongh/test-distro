@@ -19,4 +19,7 @@ EXTRA_OECONF_append_jetson-tx2-cboot = " --with-extended-sector-count=511"
 inherit autotools pkgconfig systemd
 
 SYSTEMD_SERVICE_${PN} = "finished-booting.target update_bootinfo.service"
+PACKAGES =+ "${PN}-initramfs"
+FILES_${PN}-initramfs = "${sbindir}/tegra-bootinfo"
+RDEPENDS_${PN} = "${PN}-initramfs"
 PACKAGE_ARCH_jetson-tx2-cboot = "${MACHINE_ARCH}"
