@@ -55,6 +55,6 @@ do_install_append_secureboot() {
 FILES_${PN} += "/sysroot"
 SYSTEMD_SERVICE_${PN} = "bootcountcheck.service"
 SYSTEMD_SERVICE_${PN}_append_secureboot = " dmc-passphrase.service"
-RDEPENDS_${PN} = "systemd tegra-redundant-boot-nvbootctrl tegra-boot-tools"
+RDEPENDS_${PN} = "systemd tegra-redundant-boot-nvbootctrl tegra-boot-tools-initramfs"
 RDEPENDS_${PN}_append_secureboot = " keystore-tools lvm2-udevrules"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
