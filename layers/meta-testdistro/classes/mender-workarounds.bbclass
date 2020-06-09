@@ -35,3 +35,4 @@ rootfs_version_info() {
 }
 
 ROOTFS_POSTPROCESS_COMMAND_append = " rootfs_version_info;"
+IMAGE_FSTYPES_remove_jetson-tx2-cboot = "tegraflash"
