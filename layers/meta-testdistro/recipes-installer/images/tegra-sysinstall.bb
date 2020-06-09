@@ -9,7 +9,7 @@ IMAGE_LINUGAS = ""
 
 inherit core-image
 
-IMAGE_FSTYPES_forcevariable = "tegraflash"
+IMAGE_FSTYPES = "tegraflash"
 IMAGE_ROOTFS_SIZE = "2097152"
 IMAGE_ROOTFS_MAXSIZE = "2097152"
 IMAGE_ROOTFS_EXTRA_SPACE = "0"
