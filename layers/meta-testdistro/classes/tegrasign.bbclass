@@ -1,5 +1,5 @@
 TEGRA_SIGNING_EXCLUDE_TOOLS_secureboot = "1"
-TEGRA_SIGNING_EXTRA_DEPS_secureboot = "${DIGSIG_DEPS}"
+TEGRA_SIGNING_EXTRA_DEPS_secureboot = "${DIGSIG_DEPS} gzip-native:do_populate_sysroot"
 
 inherit signing_server l4t_bsp
 
@@ -40,3 +40,5 @@ tegraflash_custom_sign_bup_secureboot() {
     digsig_post sign/tegra -F "machine=${MACHINE}" -F "soctype=${SOC_FAMILY}" -F "bspversion=${L4T_VERSION}" -F "artifact=@${WORKDIR}/tegrasign-bupgen-in.tar.gz" --output ${WORKDIR}/tegrasign-bupgen-out.tar.gz
     tar -x -z -f ${WORKDIR}/tegrasign-bupgen-out.tar.gz
 }
+
+tegraflash_custom_sign[depends] += "gzip-native:do_populate_sysroot"
