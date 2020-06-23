@@ -29,6 +29,8 @@ tegraflash_custom_sign_pkg_secureboot() {
     rm doflash.sh
     mv flashcmd.txt doflash.sh
     chmod +x doflash.sh
+    rm -f secureflash.sh
+    tegraflash_post_sign_pkg
 }
 
 tegraflash_custom_sign_bup_secureboot() {
