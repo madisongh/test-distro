@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 COMPATIBLE_MACHINE = "(tegra)"
 
-IMAGE_INSTALL = "packagegroup-core-boot tegra-sysinstall-tools haveged sysinstall-pkg"
+IMAGE_INSTALL = "packagegroup-core-boot packagegroup-base tegra-sysinstall-tools haveged sysinstall-pkg"
 IMAGE_FEATURES = "empty-root-password allow-empty-password"
 IMAGE_LINUGAS = ""
 
