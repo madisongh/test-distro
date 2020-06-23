@@ -1,26 +1,24 @@
-From 2b1d386a4e26b99feef7e426d8880a1df0998f4c Mon Sep 17 00:00:00 2001
+From 9fb2a8e0089c8f125c5d422eeace5c247638a42c Mon Sep 17 00:00:00 2001
 From: Matt Madison <matt@madison.systems>
 Date: Wed, 22 Apr 2020 11:55:11 -0700
-Subject: [PATCH] Add adsp-fw,badpage,dram-ecc-fw,eks to BUP payload
+Subject: [PATCH] Add adsp-fw and badpage to BUP payload
 
 ---
- bootloader/l4t_bup_gen.func | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ bootloader/l4t_bup_gen.func | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/bootloader/l4t_bup_gen.func b/bootloader/l4t_bup_gen.func
-index 692179f..45f507b 100644
+index 052c1f9..7587391 100644
 --- a/bootloader/l4t_bup_gen.func
 +++ b/bootloader/l4t_bup_gen.func
-@@ -215,7 +215,12 @@ _generate_bl_update_payload()
+@@ -215,7 +215,10 @@ _generate_bl_update_payload()
  				${subdir}/cboot_sigheader.bin.${signed_ext} cpu-bootloader 2 0 $_common_spec; \
  				${subdir}/nvtboot_sigheader.bin.${signed_ext} mb2 2 0 $_common_spec; \
  				${subdir}/spe_sigheader.bin.${signed_ext} spe-fw 2 0 $_common_spec; \
 -				${subdir}/tos-trusty_sigheader.img.${signed_ext} secure-os 2 0 $_common_spec;"
 +				${subdir}/tos-trusty_sigheader.img.${signed_ext} secure-os 2 0 $_common_spec; \
 +				${subdir}/adsp-fw_sigheader.bin.${signed_ext} adsp-fw 2 0 $_common_spec; \
-+				${subdir}/dram-ecc_sigheader.bin.${signed_ext} dram-ecc-fw 2 0 $_common_spec; \
-+				${subdir}/badpage_sigheader.bin.${signed_ext} badpage-fw 2 0 $_common_spec; \
-+				${subdir}/eks_sigheader.img.${signed_ext} eks 2 0 $_common_spec;"
++				${subdir}/badpage_sigheader.bin.${signed_ext} badpage-fw 2 0 $_common_spec;"
 +
  		ENTRY_LIST[kernel]="${subdir_kernel}/${kernel_image_base}_sigheader.img.${signed_ext_kernel} kernel 2 0 $_common_spec;"
  
