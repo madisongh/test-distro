@@ -133,7 +133,8 @@ TDROOT=$OEROOT
 . $OEROOT/openembedded-core/oe-init-build-env $CWD/$1 > /dev/null
 
 # if conf/local.conf not generated, no need to go further
-if [ ! -e conf/local.conf ]; then
+if ! [ -d "$BUILDDIR" -a -e $BUILDDIR/conf/local.conf ]; then
+    echo -e "ERROR: could not create build directory or local.conf"
     clean_up && return 1
 fi
 
