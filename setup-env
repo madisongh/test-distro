@@ -58,7 +58,7 @@ clean_up()
    unset LIST_MACHINES VALID_MACHINE
    unset CWD TEMPLATES SHORTOPTS LONGOPTS ARGS PROGNAME
    unset generated_config updated
-   unset MACHINE SDKMACHINE DISTRO OEROOT TEMPLATECONF BBPATH TDROOT
+   unset MACHINE DISTRO OEROOT TEMPLATECONF BBPATH TDROOT
 }
 
 # get command line options
@@ -108,10 +108,6 @@ if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$MACHINE" ]; then
     return 1
 fi
 
-if [ -z "$SDKMACHINE" ]; then
-    SDKMACHINE='x86_64'
-fi
-
 if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
     usage
     echo -e "ERROR: You must set DISTRO when creating a new build directory."
@@ -146,9 +142,7 @@ if [ "$build_dir_setup_enabled" = "true" ]; then
 
     # Change settings according environment
     sed -e "s,MACHINE ??=.*,MACHINE ??= '$MACHINE',g" \
-        -e "s,SDKMACHINE ?=.*,SDKMACHINE ?= '$SDKMACHINE',g" \
         -e "s,DISTRO ?=.*,DISTRO ?= '$DISTRO',g" \
-        -e "s,PACKAGE_CLASSES ?=.*,PACKAGE_CLASSES ?= '$PACKAGE_CLASSES',g" \
         -i conf/local.conf
 
     for s in $HOME/.oe $HOME/.yocto; do
@@ -183,7 +177,6 @@ if [ -n "$generated_config" ]; then
     cat <<EOF
 Your build environment has been configured with:
     MACHINE=$MACHINE
-    SDKMACHINE=$SDKMACHINE
     DISTRO=$DISTRO
 EOF
 else
