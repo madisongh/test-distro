@@ -58,7 +58,7 @@ clean_up()
    unset LIST_MACHINES VALID_MACHINE
    unset CWD TEMPLATES SHORTOPTS LONGOPTS ARGS PROGNAME
    unset generated_config updated
-   unset MACHINE SDKMACHINE DISTRO OEROOT TEMPLATECONF BBPATH
+   unset MACHINE SDKMACHINE DISTRO OEROOT TEMPLATECONF BBPATH TDROOT
 }
 
 # get command line options
@@ -127,7 +127,8 @@ fi
 OEROOT=`readlink -f "$CWD/$BMETA"`
 export OEROOT
 
-export TEMPLATECONF=${TEMPLATECONF:-$OEROOT/meta-testdistro/conf}
+# we need the OEROOT path later, but it gets unset by oe-init-build-env
+TDROOT=$OEROOT
 
 . $OEROOT/openembedded-core/oe-init-build-env $CWD/$1 > /dev/null
 
@@ -185,17 +186,17 @@ else
     echo "Your configuration files at $1 have not been touched."
 fi
 
-TDROOT=`readlink -f "$CWD/$BMETA"`
-export TDROOT
+# sets TEMPLATECONF
+. $TDROOT/.templateconf
 
 if [ ! -f "$BUILDDIR/conf/site.conf" -a \
-       -f "$OEROOT/$TEMPLATECONF/site.conf.sample" ]; then
-    cp $OEROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
+       -f "$TDROOT/$TEMPLATECONF/site.conf.sample" ]; then
+    cp $TDROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
 fi
 
-if [ -d "$OEROOT/meta-testdistro/scripts" ]; then
-    PATH="$OEROOT/meta-testdistro/scripts:$PATH"
-    [ ! -e "$OEROOT/meta-testdistro/scripts/buildenv-host-gcc-check" ] || . "$OEROOT/meta-testdistro/scripts/buildenv-host-gcc-check"
+if [ -d "$TDROOT/meta-testdistro/scripts" ]; then
+    PATH="$TDROOT/meta-testdistro/scripts:$PATH"
+    [ ! -e "$TDROOT/meta-testdistro/scripts/buildenv-host-gcc-check" ] || . "$TDROOT/meta-testdistro/scripts/buildenv-host-gcc-check"
 fi
 
 BB_ENV_EXTRAWHITE="GNUPGHOME DBUS_SESSION_BUS_ADDRESS AWS_CONFIG_FILE AWS_PROFILE AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SHARED_CREDENTIALS_FILE AWS_SESSION_TOKEN AWS_DEFAULT_REGION $BB_ENV_EXTRAWHITE"
