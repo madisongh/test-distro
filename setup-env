@@ -20,7 +20,7 @@ fi
 
 usage()
 {
-    echo -e "
+    cat <<EOF
 Usage: MACHINE=<machine> DISTRO=<distro> source $PROGNAME <build-dir>
 Usage:                                   source $PROGNAME <build-dir>
     <machine>    machine name
@@ -33,12 +33,12 @@ bitbake on the build directory.
 The second usage is for using an existing build directory. In this case,
 the script prepares the calling shell for running bitbake on the build
 directory <build-dir>. The build directory configuration is unchanged.
-"
 
+EOF
     ls layers/*/conf/machine/*.conf > /dev/null 2>&1
     ls layers/meta-testdistro/conf/distro/*.conf > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        echo -e "
+        cat <<EOF
 Supported machines: `echo; ls layers/*/conf/machine/*.conf \
 | sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
 Supported Tegra test distros: `echo; ls layers/meta-testdistro/conf/distro/*.conf \
@@ -48,7 +48,8 @@ Examples:
   $ MACHINE=jetson-tx2 DISTRO=testdistro source $PROGNAME build
 - To use an existing Yocto build directory:
   $ source $PROGNAME build
-"
+
+EOF
     fi
 }
 
