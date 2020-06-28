@@ -109,10 +109,7 @@ if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$MACHINE" ]; then
 fi
 
 if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
-    usage
-    echo -e "ERROR: You must set DISTRO when creating a new build directory."
-    clean_up
-    return 1
+    DISTRO="testdistro"
 fi
 
 (cd $CWD; git submodule sync > /dev/null 2>&1)
