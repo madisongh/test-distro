@@ -119,6 +119,9 @@ if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
     return 1
 fi
 
+(cd $CWD; git submodule sync > /dev/null 2>&1)
+(cd $CWD; git submodule status | grep '^-' | awk '{print $2}' | xargs git submodule update --init --)
+
 # Allow for multiple layer sets,
 # default just "layers"
 if [ "x$BMETA" = "x" ]; then
