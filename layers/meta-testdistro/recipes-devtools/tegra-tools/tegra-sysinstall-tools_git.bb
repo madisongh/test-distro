@@ -8,8 +8,8 @@ DEPENDS = "zlib"
 SRC_REPO ?= "github.com/madisongh/tegra-sysinstall.git;protocol=https"
 SRCBRANCH ?= "master"
 SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
-SRCREV = "8e359158a464e3c3c87d347305ed0db318eaf405"
-PV = "1.3+git${SRCPV}"
+SRCREV = "35211fbf66d158d8fbc34ee397dd01198e0862be"
+PV = "1.2+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
