@@ -89,8 +89,10 @@ do
     esac
 done
 
-if [ "$(whoami)" = "root" ]; then
+if [ $(id -u) -eq 0 ]; then
     echo "ERROR: do not use the BSP as root. Exiting..."
+    clean_up
+    return 1
 fi
 
 if [ ! -e $1/conf/local.conf ]; then
