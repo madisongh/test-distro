@@ -5,6 +5,8 @@ if [ -z "$ZSH_NAME"] && [ "x$0" = "x./setup-env" ]; then
 fi
 
 PROGNAME="setup-env"
+DISTRO_DEFAULT="testdistro"
+BUILDDIR_DEFAULT="build"
 
 if [ -n "$BASH_SOURCE" ]; then
     CWD="`dirname $BASH_SOURCE`"
@@ -21,18 +23,25 @@ fi
 usage()
 {
     cat <<EOF
-Usage: MACHINE=<machine> DISTRO=<distro> source $PROGNAME <build-dir>
-Usage:                                   source $PROGNAME <build-dir>
-    <machine>    machine name
-    <distro>     distro name
-    <build-dir>  build directory
+Usage: source $PROGNAME --machine <MACHINE> [<options>] [<BUILDDIR>]
+Usage: source $PROGNAME [<BUILDDIR>]
+
+Options:
+    -h, --help         Print this usage message
+    -m, --machine      Build MACHINE name
+    -d, --distro       Build DISTRO name (default '${DISTRO_DEFAULT}')
+
+Arguments:
+    BUILDDIR           Location of BUILDDIR (default '${BUILDDIR_DEFAULT}')
+
 The first usage is for creating a new build directory. In this case, the
-script creates the build directory <build-dir>, configures it for the
-specified <machine> and <distro>, and prepares the calling shell for running
+script creates the build directory <BUILDDIR>, configures it for the
+specified <MACHINE> and <DISTRO>, and prepares the calling shell for running
 bitbake on the build directory.
+
 The second usage is for using an existing build directory. In this case,
 the script prepares the calling shell for running bitbake on the build
-directory <build-dir>. The build directory configuration is unchanged.
+directory <BUILDDIR>. The build directory configuration is unchanged.
 
 EOF
     ls layers/*/conf/machine/*.conf > /dev/null 2>&1
@@ -43,11 +52,13 @@ Supported machines: `echo; ls layers/*/conf/machine/*.conf \
 | sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
 Supported Tegra test distros: `echo; ls layers/meta-testdistro/conf/distro/*.conf \
 | sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
+
 Examples:
 - To create a new Yocto build directory:
-  $ MACHINE=jetson-tx2 DISTRO=testdistro source $PROGNAME build
+  $ source $PROGNAME --machine jetson-tx2 --distro testdistro build-testdistro
+
 - To use an existing Yocto build directory:
-  $ source $PROGNAME build
+  $ source $PROGNAME build-testdistro
 
 EOF
     fi
@@ -62,13 +73,13 @@ clean_up()
 }
 
 # get command line options
-SHORTOPTS="h"
-LONGOPTS="help"
+SHORTOPTS="hm:d:b:"
+LONGOPTS="help,machine,distro"
 
 ARGS=$(getopt --options $SHORTOPTS  \
   --longoptions $LONGOPTS --name $PROGNAME -- "$@" )
 # Print the usage menu if invalid options are specified
-if [ $? != 0 -o $# -lt 1 ]; then
+if [ $? != 0 ]; then
    usage && clean_up
    return 1
 fi
@@ -77,15 +88,11 @@ eval set -- "$ARGS"
 while true;
 do
     case $1 in
-        -h|--help)
-           usage
-           clean_up
-           return 0
-           ;;
-        --)
-           shift
-           break
-           ;;
+        -h | --help)       usage; clean_up; return 0 ;;
+        -m | --machine)    MACHINE="$2"; shift; shift;;
+        -d | --distro)     DISTRO="$2"; shift; shift;;
+        -- )               shift; break ;;
+        * )                break ;;
     esac
 done
 
@@ -95,7 +102,9 @@ if [ $(id -u) -eq 0 ]; then
     return 1
 fi
 
-if [ ! -e $1/conf/local.conf ]; then
+BUILDDIR="${1:-$BUILDDIR_DEFAULT}"
+
+if [ ! -e $BUILDDIR/conf/local.conf ]; then
     build_dir_setup_enabled="true"
 else
     build_dir_setup_enabled="false"
@@ -109,7 +118,7 @@ if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$MACHINE" ]; then
 fi
 
 if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
-    DISTRO="testdistro"
+    DISTRO=$DISTRO_DEFAULT
 fi
 
 (cd $CWD; git submodule sync > /dev/null 2>&1)
@@ -126,7 +135,7 @@ export OEROOT
 # we need the OEROOT path later, but it gets unset by oe-init-build-env
 TDROOT=$OEROOT
 
-. $OEROOT/openembedded-core/oe-init-build-env $CWD/$1 > /dev/null
+. $OEROOT/openembedded-core/oe-init-build-env $CWD/$BUILDDIR > /dev/null
 
 # if conf/local.conf not generated, no need to go further
 if ! [ -d "$BUILDDIR" -a -e $BUILDDIR/conf/local.conf ]; then
@@ -168,6 +177,7 @@ Common targets are:
     meta-toolchain-sdk
     adt-installer
     meta-ide-support
+
 EOF
 
 if [ -n "$generated_config" ]; then
@@ -175,9 +185,10 @@ if [ -n "$generated_config" ]; then
 Your build environment has been configured with:
     MACHINE=$MACHINE
     DISTRO=$DISTRO
+
 EOF
 else
-    echo "Your configuration files at $1 have not been touched."
+    echo "Your configuration files at $BUILDDIR have not been touched."
 fi
 
 # sets TEMPLATECONF
