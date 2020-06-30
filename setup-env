@@ -4,53 +4,210 @@ if [ -z "$ZSH_NAME"] && [ "x$0" = "x./setup-env" ]; then
     exit 1
 fi
 
+PROGNAME="setup-env"
+DISTRO_DEFAULT="testdistro"
+BUILDDIR_DEFAULT="build"
+
 if [ -n "$BASH_SOURCE" ]; then
-    OEROOT="`dirname $BASH_SOURCE`"
+    CWD="`dirname $BASH_SOURCE`"
 elif [ -n "$ZSH_SOURCE"]; then
-    OEROOT="`dirname $0`"
+    CWD="`dirname $0`"
 else
-    OEROOT="`pwd`"
+    CWD="`pwd`"
 fi
+
 if [ -n "$BBSERVER" ]; then
     unset BBSERVER
 fi
-if [ "x$1" = "x" ]; then
-    BDIR="build"
-else
-    BDIR="$1"
-fi
-if [ -e "$BDIR" ]; then
-    BDIR=`readlink -f "$BDIR"`
-    if [ ! -d "$BDIR" ]; then
-	echo "Usage: setup-env [dirname]"
-	return 1
+
+usage()
+{
+    cat <<EOF
+Usage: source $PROGNAME --machine <MACHINE> [<options>] [<BUILDDIR>]
+Usage: source $PROGNAME [<BUILDDIR>]
+
+Options:
+    -h, --help         Print this usage message
+    -m, --machine      Build MACHINE name
+    -d, --distro       Build DISTRO name (default '${DISTRO_DEFAULT}')
+
+Arguments:
+    BUILDDIR           Location of BUILDDIR (default '${BUILDDIR_DEFAULT}')
+
+The first usage is for creating a new build directory. In this case, the
+script creates the build directory <BUILDDIR>, configures it for the
+specified <MACHINE> and <DISTRO>, and prepares the calling shell for running
+bitbake on the build directory.
+
+The second usage is for using an existing build directory. In this case,
+the script prepares the calling shell for running bitbake on the build
+directory <BUILDDIR>. The build directory configuration is unchanged.
+
+EOF
+    ls layers/*/conf/machine/*.conf > /dev/null 2>&1
+    ls layers/meta-testdistro/conf/distro/*.conf > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        cat <<EOF
+Supported machines: `echo; ls layers/*/conf/machine/*.conf \
+| sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
+Supported Tegra test distros: `echo; ls layers/meta-testdistro/conf/distro/*.conf \
+| sed s/\.conf//g | sed -r 's/^.+\///' | xargs -I% echo -e "\t%"`
+
+Examples:
+- To create a new Yocto build directory:
+  $ source $PROGNAME --machine jetson-tx2 --distro testdistro build-testdistro
+
+- To use an existing Yocto build directory:
+  $ source $PROGNAME build-testdistro
+
+EOF
     fi
-else
-    mkdir -p "$BDIR"
-    BDIR=`readlink -f "$BDIR"`
+}
+
+clean_up()
+{
+   unset LIST_MACHINES VALID_MACHINE
+   unset CWD TEMPLATES SHORTOPTS LONGOPTS ARGS PROGNAME
+   unset generated_config updated
+   unset MACHINE DISTRO OEROOT TEMPLATECONF BBPATH TDROOT
+}
+
+# get command line options
+SHORTOPTS="hm:d:b:"
+LONGOPTS="help,machine,distro"
+
+ARGS=$(getopt --options $SHORTOPTS  \
+  --longoptions $LONGOPTS --name $PROGNAME -- "$@" )
+# Print the usage menu if invalid options are specified
+if [ $? != 0 ]; then
+   usage && clean_up
+   return 1
 fi
+
+eval set -- "$ARGS"
+while true;
+do
+    case $1 in
+        -h | --help)       usage; clean_up; return 0 ;;
+        -m | --machine)    MACHINE="$2"; shift; shift;;
+        -d | --distro)     DISTRO="$2"; shift; shift;;
+        -- )               shift; break ;;
+        * )                break ;;
+    esac
+done
+
+if [ $(id -u) -eq 0 ]; then
+    echo "ERROR: do not use the BSP as root. Exiting..."
+    clean_up
+    return 1
+fi
+
+BUILDDIR="${1:-$BUILDDIR_DEFAULT}"
+
+if [ ! -e $BUILDDIR/conf/local.conf ]; then
+    build_dir_setup_enabled="true"
+else
+    build_dir_setup_enabled="false"
+fi
+
+if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$MACHINE" ]; then
+    usage
+    echo -e "ERROR: You must set MACHINE when creating a new build directory."
+    clean_up
+    return 1
+fi
+
+if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
+    DISTRO=$DISTRO_DEFAULT
+fi
+
+(cd $CWD; git submodule sync > /dev/null 2>&1)
+(cd $CWD; git submodule status | grep '^-' | awk '{print $2}' | xargs git submodule update --init --)
+
 # Allow for multiple layer sets,
 # default just "layers"
 if [ "x$BMETA" = "x" ]; then
     BMETA="layers"
 fi
-OEROOT=`readlink -f "$OEROOT/$BMETA"`
+OEROOT=`readlink -f "$CWD/$BMETA"`
 export OEROOT
-export BITBAKEDIR="$OEROOT/bitbake"
-. $OEROOT/scripts/oe-buildenv-internal && \
-    $OEROOT/scripts/oe-setup-builddir && \
-    [ -n "$BUILDDIR" ] && cd $BUILDDIR
-TEMPLATECONF=`cat $BUILDDIR/conf/templateconf.cfg`
+
+# we need the OEROOT path later, but it gets unset by oe-init-build-env
+TDROOT=$OEROOT
+
+. $OEROOT/openembedded-core/oe-init-build-env $CWD/$BUILDDIR > /dev/null
+
+# if conf/local.conf not generated, no need to go further
+if ! [ -d "$BUILDDIR" -a -e $BUILDDIR/conf/local.conf ]; then
+    echo -e "ERROR: could not create build directory or local.conf"
+    clean_up && return 1
+fi
+
+generated_config=
+if [ "$build_dir_setup_enabled" = "true" ]; then
+
+    # Change settings according environment
+    sed -e "s,MACHINE ??=.*,MACHINE ??= '$MACHINE',g" \
+        -e "s,DISTRO ?=.*,DISTRO ?= '$DISTRO',g" \
+        -i conf/local.conf
+
+    for s in $HOME/.oe $HOME/.yocto; do
+        if [ -e $s/site.conf ]; then
+            echo "Linking $s/site.conf to conf/site.conf"
+            ln -s $s/site.conf conf
+        fi
+    done
+
+    generated_config=1
+fi
+
+cat <<EOF
+Welcome to the meta-tegra test distribution.
+
+The Yocto Project has extensive documentation about OE including a
+reference manual which can be found at:
+    http://yoctoproject.org/documentation
+For more information about OpenEmbedded see their website:
+    http://www.openembedded.org/
+
+You can now run 'bitbake <target>'
+Common targets are:
+    core-image-minimal
+    meta-toolchain
+    meta-toolchain-sdk
+    adt-installer
+    meta-ide-support
+
+EOF
+
+if [ -n "$generated_config" ]; then
+    cat <<EOF
+Your build environment has been configured with:
+    MACHINE=$MACHINE
+    DISTRO=$DISTRO
+
+EOF
+else
+    echo "Your configuration files at $BUILDDIR have not been touched."
+fi
+
+# sets TEMPLATECONF
+. $TDROOT/.templateconf
+
 if [ ! -f "$BUILDDIR/conf/site.conf" -a \
-       -f "$OEROOT/$TEMPLATECONF/site.conf.sample" ]; then
-    cp $OEROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
+       -f "$TDROOT/$TEMPLATECONF/site.conf.sample" ]; then
+    cp $TDROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
 fi
-if [ -d "$OEROOT/meta-testdistro/scripts" ]; then
-    PATH="$OEROOT/meta-testdistro/scripts:$PATH"
-    [ ! -e "$OEROOT/meta-testdistro/scripts/buildenv-host-gcc-check" ] || . "$OEROOT/meta-testdistro/scripts/buildenv-host-gcc-check"
+
+if [ -d "$TDROOT/meta-testdistro/scripts" ]; then
+    PATH="$TDROOT/meta-testdistro/scripts:$PATH"
+    [ ! -e "$TDROOT/meta-testdistro/scripts/buildenv-host-gcc-check" ] || . "$TDROOT/meta-testdistro/scripts/buildenv-host-gcc-check"
 fi
+
 BB_ENV_EXTRAWHITE="GNUPGHOME DBUS_SESSION_BUS_ADDRESS AWS_CONFIG_FILE AWS_PROFILE AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SHARED_CREDENTIALS_FILE AWS_SESSION_TOKEN AWS_DEFAULT_REGION $BB_ENV_EXTRAWHITE"
-unset OEROOT BBPATH TEMPLATECONF BITBAKEDIR
+
 if [ "`umask | tail -c 2`" = "7" ]; then
     umask 0022
 fi
+
+clean_up
