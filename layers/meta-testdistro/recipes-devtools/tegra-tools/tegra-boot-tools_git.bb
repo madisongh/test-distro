@@ -1,7 +1,7 @@
 DESCRIPTION = "Boot-related tools for Tegra platforms"
 HOMEPAGE = "https://github.com/madisongh/tegra-boot-tools"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=5e5799d70d07956d01af05a7a92ea0d7"
+LICENSE = "MIT & BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f547d56278324f08919c3805e5fb8df9"
 
 DEPENDS = "zlib"
 
