@@ -13,3 +13,7 @@ EXTRA_OECONF = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
 inherit autotools pkgconfig systemd
 
 SYSTEMD_SERVICE_${PN} = "finished-booting.target update_bootinfo.service"
+PACKAGES =+ "${PN}-initramfs"
+FILES_${PN}-initramfs = "${sbindir}/tegra-bootinfo"
+RDEPENDS_${PN} = "${PN}-initramfs"
+PACKAGE_ARCH_jetson-tx2-cboot = "${MACHINE_ARCH}"
