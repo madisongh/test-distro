@@ -1,21 +1,14 @@
 SUMMARY = "Linux tools for Trusty Keystore app"
 DESCRIPTION = "Linux programs for communicating with the keystore TA \
 and generating an encrypted keyblob (EKB) for flashing"
-HOMEPAGE = "https://github.com/madisongh/keystore"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5e5799d70d07956d01af05a7a92ea0d7"
 
-SRC_REPO ?= "github.com/madisongh/keystore.git;protocol=https"
-SRCBRANCH ?= "master"
-SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
-SRCREV ?= "${AUTOREV}"
-S = "${WORKDIR}/git"
+require keystore.inc
 
-DEPENDS = "openssl"
+DEPENDS += "openssl"
 
-inherit l4t_bsp autotools pkgconfig
-
-PV = "32.4.2+git${SRCPV}"
+inherit autotools pkgconfig
 
 S = "${WORKDIR}/git/tools"
 B = "${WORKDIR}/build"
