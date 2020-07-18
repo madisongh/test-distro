@@ -135,6 +135,9 @@ export OEROOT
 # we need the OEROOT path later, but it gets unset by oe-init-build-env
 TDROOT=$OEROOT
 
+# templateconf uses this value, but only on initial setup
+export DISTRO
+
 . $OEROOT/openembedded-core/oe-init-build-env $CWD/$BUILDDIR > /dev/null
 
 # if conf/local.conf not generated, no need to go further
