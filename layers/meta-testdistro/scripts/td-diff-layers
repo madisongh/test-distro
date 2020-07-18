@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ $COLOR -eq 1 ]; then
+    diffcolor=always
+else
+    diffcolor=never
+fi
+
+if [ -f "$TDROOT/$TEMPLATECONF/bblayers.conf.sample" -a -f "$BUILDDIR/conf/bblayers.conf" ]; then
+    SAMPLE_CONF=$(sed -e "s|##OEROOT##|$TDROOT|g" -e "s|##COREBASE##|$TDROOT|g" "$TDROOT/$TEMPLATECONF/bblayers.conf.sample")
+    CONFS_DIFF=$(echo -e "${SAMPLE_CONF}" | diff -u --color=$diffcolor "-" "$BUILDDIR/conf/bblayers.conf")
+    if [ $? -ne 0 ]; then
+        echo
+        if [ $COLOR -eq 1 ]; then echo -ne "\033[33;1m"; fi
+        echo -e "Layers differ from $TDROOT/$TEMPLATECONF/bblayers.conf.sample"
+	if [ $COLOR -eq 1 ]; then echo -ne "\033[0m"; fi
+        echo -e "${CONFS_DIFF}"
+    fi
+fi
+
+unset diffcolor

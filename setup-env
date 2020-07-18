@@ -30,6 +30,8 @@ Options:
     -h, --help         Print this usage message
     -m, --machine      Build MACHINE name
     -d, --distro       Build DISTRO name (default '${DISTRO_DEFAULT}')
+    -c, --color        Colorize the output; can be 'never', 'always',
+                             or 'auto' (default 'auto')
 
 Arguments:
     BUILDDIR           Location of BUILDDIR (default '${BUILDDIR_DEFAULT}')
@@ -70,11 +72,12 @@ clean_up()
    unset CWD TEMPLATES SHORTOPTS LONGOPTS ARGS PROGNAME
    unset generated_config updated
    unset MACHINE DISTRO OEROOT TEMPLATECONF BBPATH TDROOT
+   unset COLOR
 }
 
 # get command line options
-SHORTOPTS="hm:d:b:"
-LONGOPTS="help,machine,distro"
+SHORTOPTS="hm:d:b:c:"
+LONGOPTS="help,machine,distro,color"
 
 ARGS=$(getopt --options $SHORTOPTS  \
   --longoptions $LONGOPTS --name $PROGNAME -- "$@" )
@@ -91,6 +94,7 @@ do
         -h | --help)       usage; clean_up; return 0 ;;
         -m | --machine)    MACHINE="$2"; shift; shift;;
         -d | --distro)     DISTRO="$2"; shift; shift;;
+        -c | --color)      COLOR="$2"; shift; shift;;
         -- )               shift; break ;;
         * )                break ;;
     esac
@@ -119,6 +123,22 @@ fi
 
 if [ "$build_dir_setup_enabled" = "true" ] && [ -z "$DISTRO" ]; then
     DISTRO=$DISTRO_DEFAULT
+fi
+
+if [ -z "$COLOR" ]; then
+    COLOR=auto
+fi
+
+if [ $COLOR = "always" ]; then
+    COLOR=1
+elif [ $COLOR = "auto" ]; then
+    if [ -t 1 ]; then
+        COLOR=1
+    else
+        COLOR=0
+    fi
+else
+    COLOR=0
 fi
 
 (cd $CWD; git submodule sync > /dev/null 2>&1)
@@ -168,6 +188,12 @@ TEMPLATECONF=$(cat "$BUILDDIR/conf/templateconf.cfg")
 
 cat $TDROOT/$TEMPLATECONF/conf-notes.txt
 
+if [ -d "$TDROOT/meta-testdistro/scripts" ]; then
+    PATH="$TDROOT/meta-testdistro/scripts:$PATH"
+else
+    echo "Testdistro setup scripts could not be found!"
+fi
+
 if [ -n "$generated_config" ]; then
     cat <<EOF
 Your build environment has been configured with:
@@ -177,6 +203,7 @@ Your build environment has been configured with:
 EOF
 else
     echo "Your configuration files at $BUILDDIR have not been touched."
+    . td-diff-layers
 fi
 
 if [ ! -f "$BUILDDIR/conf/site.conf" -a \
@@ -184,10 +211,7 @@ if [ ! -f "$BUILDDIR/conf/site.conf" -a \
     cp $TDROOT/$TEMPLATECONF/site.conf.sample $BUILDDIR/conf/site.conf
 fi
 
-if [ -d "$TDROOT/meta-testdistro/scripts" ]; then
-    PATH="$TDROOT/meta-testdistro/scripts:$PATH"
-    [ ! -e "$TDROOT/meta-testdistro/scripts/buildenv-host-gcc-check" ] || . "$TDROOT/meta-testdistro/scripts/buildenv-host-gcc-check"
-fi
+. buildenv-host-gcc-check
 
 BB_ENV_EXTRAWHITE="GNUPGHOME DBUS_SESSION_BUS_ADDRESS AWS_CONFIG_FILE AWS_PROFILE AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SHARED_CREDENTIALS_FILE AWS_SESSION_TOKEN AWS_DEFAULT_REGION $BB_ENV_EXTRAWHITE"
 
