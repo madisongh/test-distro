@@ -161,24 +161,9 @@ if [ "$build_dir_setup_enabled" = "true" ]; then
     generated_config=1
 fi
 
-cat <<EOF
-Welcome to the meta-tegra test distribution.
+TEMPLATECONF=$(cat "$BUILDDIR/conf/templateconf.cfg")
 
-The Yocto Project has extensive documentation about OE including a
-reference manual which can be found at:
-    http://yoctoproject.org/documentation
-For more information about OpenEmbedded see their website:
-    http://www.openembedded.org/
-
-You can now run 'bitbake <target>'
-Common targets are:
-    core-image-minimal
-    meta-toolchain
-    meta-toolchain-sdk
-    adt-installer
-    meta-ide-support
-
-EOF
+cat $TDROOT/$TEMPLATECONF/conf-notes.txt
 
 if [ -n "$generated_config" ]; then
     cat <<EOF
@@ -190,9 +175,6 @@ EOF
 else
     echo "Your configuration files at $BUILDDIR have not been touched."
 fi
-
-# sets TEMPLATECONF
-. $TDROOT/.templateconf
 
 if [ ! -f "$BUILDDIR/conf/site.conf" -a \
        -f "$TDROOT/$TEMPLATECONF/site.conf.sample" ]; then
