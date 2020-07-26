@@ -11,8 +11,8 @@ SRC_URI = "git://${SRC_REPO};branch=${SRCBRANCH}"
 SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 
-COMPATIBLE_MACHINE = "(tegra186|tegra194|tegra210)"
-PACKAGE_ARCH = "${SOC_FAMILY_PKGARCH}"
+COMPATIBLE_MACHINE = "(tegra)"
+PACKAGE_ARCH_tegra = "${TEGRA_PKGARCH}"
 
 S = "${WORKDIR}/git"
 
