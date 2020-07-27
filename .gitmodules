@@ -9,7 +9,7 @@
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
 	url = https://github.com/madisongh/meta-tegra
-	branch = dunfell-l4t-r32.4.3
+	branch = wip-yocto-compat-dunfell3243
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
 	url = git://git.openembedded.org/meta-openembedded
