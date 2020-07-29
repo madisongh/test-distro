@@ -20,5 +20,5 @@
 	branch = patches-zeus
 [submodule "repos/meta-mender-community"]
 	path = repos/meta-mender-community
-	url = https://github.com/madisongh/meta-mender-community
-	branch = patches-zeus-test
+	url = https://github.com/mendersoftware/meta-mender-community
+	branch = zeus
