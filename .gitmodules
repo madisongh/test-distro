@@ -8,7 +8,7 @@
 	branch = zeus
 [submodule "repos/meta-tegra"]
 	path = repos/meta-tegra
-	url = https://github.com/madisongh/meta-tegra
+	url = https://github.com/OE4T/meta-tegra
 	branch = zeus-l4t-r32.3.1
 [submodule "repos/meta-openembedded"]
 	path = repos/meta-openembedded
