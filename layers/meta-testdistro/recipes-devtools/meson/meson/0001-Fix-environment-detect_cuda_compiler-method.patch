@@ -1,0 +1,22 @@
+From 3ebf13ebadeb1b5421d9ad1588ef5cba2a4c1726 Mon Sep 17 00:00:00 2001
+From: Matt Madison <matt@madison.systems>
+Date: Fri, 28 Aug 2020 07:14:46 -0700
+Subject: [PATCH] Fix environment detect_cuda_compiler method
+
+---
+ mesonbuild/environment.py | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+index 4af5bbe..71e8a21 100644
+--- a/mesonbuild/environment.py
++++ b/mesonbuild/environment.py
+@@ -1204,8 +1204,6 @@ class Environment:
+         for compiler in compilers:
+             if isinstance(compiler, str):
+                 compiler = [compiler]
+-            else:
+-                raise EnvironmentException()
+             arg = '--version'
+             try:
+                 p, out, err = Popen_safe(compiler + [arg])
