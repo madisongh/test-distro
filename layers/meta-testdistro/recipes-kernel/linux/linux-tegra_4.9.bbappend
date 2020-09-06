@@ -1,5 +1,4 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-tegra-4.9:"
-SRC_URI += "file://systemd.cfg"
 SRC_URI_append_jetson-tx2-cboot = " file://0001-Drop-security-engine-RSA-priority.patch"
 SRC_URI_append_jetson-tx2-cboot = " file://test-signing-key.pem"
 SRC_URI_append_jetson-tx2-cboot = " file://module-signing.cfg file://dm-crypt.cfg"
