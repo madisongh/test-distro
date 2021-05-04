@@ -1,3 +1,5 @@
 RDEPENDS_packagegroup-base += "termutils less procps strace ${SYSTEMDSTUFF}"
-RDEPENDS_packagegroup-base_append_tegra = " tegra-startup"
+RDEPENDS_packagegroup-base_append_tegra = " tegra-startup gptfdisk"
+RDEPENDS_packagegroup-base_append_tegra186 = " tegra186-redundant-boot"
+RDEPENDS_packagegroup-base_append_tegra194 = " tegra186-redundant-boot"
 SYSTEMDSTUFF = "${@'systemd-analyze' if d.getVar('VIRTUAL-RUNTIME_init_manager') == 'systemd' else ''}"
